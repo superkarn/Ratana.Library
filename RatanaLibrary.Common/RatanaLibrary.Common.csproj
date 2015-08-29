@@ -44,7 +44,7 @@
     <Compile Include="Cache\ICache.cs" />
     <Compile Include="Cache\InMemoryCache.cs" />
     <Compile Include="Cache\NoCache.cs" />
-    <Compile Include="Log\ILog.cs" />
+    <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\LogEntry.cs" />
     <Compile Include="Log\LoggerExtentions.cs" />
     <Compile Include="Log\LoggingEventType.cs" />
