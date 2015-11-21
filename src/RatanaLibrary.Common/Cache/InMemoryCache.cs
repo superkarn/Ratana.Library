@@ -8,6 +8,8 @@ namespace RatanaLibrary.Common.Cache
     /// </summary>
     public class InMemoryCache : ICache
     {
+        private readonly TimeSpan DEFAULT_CACHE_DURATION = TimeSpan.FromDays(1);
+
         private static Object Lock = new Object();
 
         public InMemoryCache()
@@ -17,7 +19,7 @@ namespace RatanaLibrary.Common.Cache
 
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd)
         {
-            return ((ICache)this).GetOrAdd(key, orAdd, TimeSpan.FromDays(1));
+            return ((ICache)this).GetOrAdd(key, orAdd, DEFAULT_CACHE_DURATION);
         }
 
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
