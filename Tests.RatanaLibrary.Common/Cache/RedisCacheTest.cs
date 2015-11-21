@@ -8,8 +8,8 @@ namespace Tests.RatanaLibrary.Common.Cache
     public class RedisCacheTest
     {
         [Test]
-        [TestCase("test-key1", "test-value", "test-fake-value")]
-        [TestCase("test-key2", "", "test-fake-value")]
+        [TestCase("RedisCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
+        [TestCase("RedisCacheTest:GetOrAdd:test-key2", "", "test-fake-value")]
         public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
         {
             #region Arrange
@@ -54,7 +54,7 @@ namespace Tests.RatanaLibrary.Common.Cache
         {
             #region Arrange
             // Set up some variables
-            var cacheKey = "test-key";
+            var cacheKey = "RedisCacheTest:GetOrAddAnonymousType:test-key";
             var cacheValue = new { Name = "test-name", Value = "test-value" };
             var fakeValue = new { Name = "test-fake-name", Value = "test-fake-value" };
             var cache = new RedisCache(new RedisCache.RedisSettings() { });
@@ -93,14 +93,14 @@ namespace Tests.RatanaLibrary.Common.Cache
         }
 
         [Test]
-        public void Remove()
+        [TestCase("RedisCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
+        [TestCase("RedisCacheTest:Remove:test-key", "", "test-value-2")]
+        [TestCase("", "test-value-1", "test-value-2")]
+        public void Remove(string cacheKey, string cacheValue1, string cacheValue2)
         {
             #region Arrange
             // Set up some variables
-            var cacheKey = "test-key";
-            var cacheValue1 = "test-value-1";
-            var cacheValue2 = "test-value-2";
-            var cache = new RedisCache(new RedisCache.RedisSettings() { });
+            var cache = new RedisCache(new RedisCache.RedisSettings(){});
 
             // Make sure the key we're about to test is empty
             ((ICache)cache).Remove(cacheKey);
