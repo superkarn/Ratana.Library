@@ -47,7 +47,7 @@ namespace RatanaLibrary.Common.Cache
             MemoryCache.Default.Remove(key);
         }
 
-        
+
 
         /// <summary>
         /// Look for the item in the cache.
@@ -60,10 +60,9 @@ namespace RatanaLibrary.Common.Cache
         /// <returns></returns>
         private Boolean TryGet<T>(String key, out T value)
         {
-            value = default(T);
-
             if (!MemoryCache.Default.Contains(key))
             {
+                value = default(T);
                 return false;
             }
 
