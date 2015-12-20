@@ -8,13 +8,12 @@ namespace Tests.RatanaLibrary.Common.Cache
     public class InMemoryCacheTest
     {
         [Test]
-        public void GetOrAdd()
+        [TestCase("InMemoryCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
+        [TestCase("InMemoryCacheTest:GetOrAdd:test-key2", "", "test-fake-value")]
+        public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
         {
             #region Arrange
             // Set up some variables
-            var cacheKey = "test-key";
-            var cacheValue = "test-value";
-            var fakeValue = "test-fake-value";
             var cache = new InMemoryCache();
 
             // Make sure the key we're about to test is empty
@@ -51,13 +50,13 @@ namespace Tests.RatanaLibrary.Common.Cache
         }
 
         [Test]
-        public void Remove()
+        [TestCase("InMemoryCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
+        [TestCase("InMemoryCacheTest:Remove:test-key", "", "test-value-2")]
+        [TestCase("", "test-value-1", "test-value-2")]
+        public void Remove(string cacheKey, string cacheValue1, string cacheValue2)
         {
             #region Arrange
             // Set up some variables
-            var cacheKey = "test-key";
-            var cacheValue1 = "test-value-1";
-            var cacheValue2 = "test-value-2";
             var cache = new InMemoryCache();
 
             // Make sure the key we're about to test is empty

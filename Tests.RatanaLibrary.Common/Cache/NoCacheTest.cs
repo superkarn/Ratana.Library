@@ -8,13 +8,12 @@ namespace Tests.RatanaLibrary.Common.Cache
     public class NoCacheTest
     {
         [Test]
-        public void GetOrAdd()
+        [TestCase("NoCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
+        [TestCase("NoCacheTest:GetOrAdd:test-key2", "", "test-fake-value")]
+        public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
         {
             #region Arrange
             // Set up some variables
-            var cacheKey = "test-key";
-            var cacheValue1 = "test-value-1";
-            var cacheValue2 = "test-value-2";
             var cache = new NoCache();
             #endregion
 
@@ -23,31 +22,32 @@ namespace Tests.RatanaLibrary.Common.Cache
             // 1 Try to save cacheValue1 under cacheKey.
             var returnedCachValue1 = ((ICache)cache).GetOrAdd(cacheKey, () =>
             {
-                return cacheValue1;
+                return cacheValue;
             });
 
             // 2 Try to save cacheValue2 under cacheKey.
             var returnedCachValue2 = ((ICache)cache).GetOrAdd(cacheKey, () =>
             {
-                return cacheValue2;
+                return fakeValue;
             });
             #endregion
 
 
             #region Assert
             // What we get back should equal what we put in, since there is no cache.
-            Assert.AreEqual(cacheValue1, returnedCachValue1);
-            Assert.AreEqual(cacheValue2, returnedCachValue2);
+            Assert.AreEqual(cacheValue, returnedCachValue1);
+            Assert.AreEqual(fakeValue, returnedCachValue2);
             #endregion
         }
 
         [Test]
-        public void Remove()
+        [TestCase("NoCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
+        [TestCase("NoCacheTest:Remove:test-key", "", "test-value-2")]
+        [TestCase("", "test-value-1", "test-value-2")]
+        public void Remove(string cacheKey, string cacheValue1, string cacheValue2)
         {
             #region Arrange
             // Set up some variables
-            var cacheKey = "test-key";
-            var cacheValue1 = "test-value-1";
             var cache = new NoCache();
             #endregion
 
