@@ -18,7 +18,7 @@ namespace RatanaLibrary.Common.Cache
 
         private readonly TimeSpan DEFAULT_CACHE_DURATION = TimeSpan.FromDays(1);
 
-        public RedisCache(): this(new RedisSettings() { Server="localst" })
+        public RedisCache(): this(new RedisSettings() { Server="localhost" })
         {
         }
 
