@@ -7,7 +7,7 @@ namespace Tests.RatanaLibrary.Common.Cache
     [TestFixture]
     public class RedisCacheTest
     {
-        private readonly RedisCache.RedisSettings redisSettings = new RedisCache.RedisSettings()
+        private readonly RedisCache.RedisSettings _redisSettings = new RedisCache.RedisSettings()
         {
             Server = "localhost"
         };
@@ -19,7 +19,7 @@ namespace Tests.RatanaLibrary.Common.Cache
         {
             #region Arrange
             // Set up some variables
-            var cache = new RedisCache(this.redisSettings);
+            var cache = new RedisCache(this._redisSettings);
 
             // Make sure the key we're about to test is empty
             ((ICache)cache).Remove(cacheKey);
@@ -62,7 +62,7 @@ namespace Tests.RatanaLibrary.Common.Cache
             var cacheKey = "RedisCacheTest:GetOrAddAnonymousType:test-key";
             var cacheValue = new { Name = "test-name", Value = "test-value" };
             var fakeValue = new { Name = "test-fake-name", Value = "test-fake-value" };
-            var cache = new RedisCache(this.redisSettings);
+            var cache = new RedisCache(this._redisSettings);
 
             // Make sure the key we're about to test is empty
             ((ICache)cache).Remove(cacheKey);
@@ -105,7 +105,7 @@ namespace Tests.RatanaLibrary.Common.Cache
         {
             #region Arrange
             // Set up some variables
-            var cache = new RedisCache(this.redisSettings);
+            var cache = new RedisCache(this._redisSettings);
 
             // Make sure the key we're about to test is empty
             ((ICache)cache).Remove(cacheKey);

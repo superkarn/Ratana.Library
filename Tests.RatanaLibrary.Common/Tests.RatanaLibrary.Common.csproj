@@ -46,6 +46,7 @@
     <Compile Include="Cache\InMemoryCacheTest.cs" />
     <Compile Include="Cache\NoCacheTest.cs" />
     <Compile Include="Cache\RedisCacheTest.cs" />
+    <Compile Include="Log\SerilogLoggerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
