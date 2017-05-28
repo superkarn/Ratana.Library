@@ -4,34 +4,34 @@ namespace RatanaLibrary.Common.Log
 {
     public static class LoggerExtentions
     {
-        public static void Verbose(this ILogger logger, string message, string source = null, Exception exception = null)
+        public static void Verbose(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Verbose, message, source, exception));
+            logger.Log(new LogEntry(LoggingEventType.Verbose, message, exception, args));
         }
 
-        public static void Debug(this ILogger logger, string message, string source = null, Exception exception = null)
+        public static void Debug(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, message, source, exception));
+            logger.Log(new LogEntry(LoggingEventType.Debug, message, exception, args));
         }
 
-        public static void Information(this ILogger logger, string message, string source = null, Exception exception = null)
+        public static void Information(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Information, message, source, exception));
+            logger.Log(new LogEntry(LoggingEventType.Information, message, exception, args));
         }
 
-        public static void Warning(this ILogger logger, string message, string source = null, Exception exception = null)
+        public static void Warning(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Warning, message, source, exception));
+            logger.Log(new LogEntry(LoggingEventType.Warning, message, exception, args));
         }
 
-        public static void Error(this ILogger logger, string message, string source = null, Exception exception = null)
+        public static void Error(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Error, message, source, exception));
+            logger.Log(new LogEntry(LoggingEventType.Error, message, exception, args));
         }
 
-        public static void Fatal(this ILogger logger, string message, string source = null, Exception exception = null)
+        public static void Fatal(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Fatal, message, source, exception));
+            logger.Log(new LogEntry(LoggingEventType.Fatal, message, exception, args));
         }
 
 
@@ -44,9 +44,9 @@ namespace RatanaLibrary.Common.Log
         /// <param name="message"></param>
         /// <param name="source"></param>
         /// <param name="exception"></param>
-        public static void Log(this ILogger logger, LoggingEventType severity, string message, string source = null, Exception exception = null)
+        public static void Log(this ILogger logger, LoggingEventType severity, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(severity, message, source, exception));
+            logger.Log(new LogEntry(severity, message, exception, args));
         }
     }
 }

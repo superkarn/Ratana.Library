@@ -30,6 +30,7 @@ namespace RatanaLibrary.Common.Log
                 .MinimumLevel.Is(mininumLevel)
                 .Enrich.WithProperty("Application", applicationName)
                 .Enrich.WithMachineName()
+                .Enrich.FromLogContext()
                 .WriteTo.RollingFile(logFile, outputTemplate: outputTemplate)
                 .CreateLogger();
         }
@@ -39,28 +40,28 @@ namespace RatanaLibrary.Common.Log
             switch(entry.Severity)
             {
                 case LoggingEventType.Verbose:
-                    this._adaptee.Verbose(entry.Exception, entry.Message);
+                    this._adaptee.Verbose(entry.Exception, entry.Message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Debug:
-                    this._adaptee.Debug(entry.Exception, entry.Message);
+                    this._adaptee.Debug(entry.Exception, entry.Message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Information:
-                    this._adaptee.Information(entry.Exception, entry.Message);
+                    this._adaptee.Information(entry.Exception, entry.Message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Warning:
-                    this._adaptee.Warning(entry.Exception, entry.Message);
+                    this._adaptee.Warning(entry.Exception, entry.Message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Error:
-                    this._adaptee.Error(entry.Exception, entry.Message);
+                    this._adaptee.Error(entry.Exception, entry.Message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Fatal:
                 default:
-                    this._adaptee.Fatal(entry.Exception, entry.Message);
+                    this._adaptee.Fatal(entry.Exception, entry.Message, entry.Arguments);
                     break;
             }
         }

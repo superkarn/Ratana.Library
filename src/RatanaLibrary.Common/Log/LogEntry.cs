@@ -6,10 +6,10 @@ namespace RatanaLibrary.Common.Log
     {
         public readonly LoggingEventType Severity;
         public readonly string Message;
-        public readonly string Source;
         public readonly Exception Exception;
+        public readonly object[] Arguments;
 
-        public LogEntry(LoggingEventType severity, string message, string source, Exception exception)
+        public LogEntry(LoggingEventType severity, string message, Exception exception, object[] args)
         {
             if (message == null)
             {
@@ -21,15 +21,15 @@ namespace RatanaLibrary.Common.Log
                 throw new ArgumentException("message");
             }
 
-            if (severity < LoggingEventType.Verbose || severity > LoggingEventType.Fatal)
+            if (severity < LoggingEventType.Verbose || LoggingEventType.Fatal < severity)
             {
                 throw new ArgumentOutOfRangeException("severity");
             }
 
             this.Severity = severity;
             this.Message = message;
-            this.Source = source;
             this.Exception = exception;
+            this.Arguments = args;
         }
     }
 }
