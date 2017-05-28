@@ -1,5 +1,7 @@
 ﻿using Serilog;
+using Serilog.Events;
 using System;
+using System.Configuration;
 
 namespace RatanaLibrary.Common.Log
 {
@@ -11,16 +13,25 @@ namespace RatanaLibrary.Common.Log
     {
         private readonly Serilog.ILogger _adaptee;
 
-        public SerilogLogger()
+        public SerilogLogger(string applicationName = "DefaultApplicationName")
         {
-            this._adaptee = new LoggerConfiguration()
-                .WriteTo.RollingFile(@"C:\logs\log.txt")
-                .CreateLogger();
-        }
+            var logPath = ConfigurationManager.AppSettings["log:path"] ?? @"C:\logs";
+            var logFile = String.Format(@"{0}\{1}-{{Date}}.log", logPath, applicationName);
+            var outputTemplate = @"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} machine={MachineName} application={Application} level={Level} {Message}{NewLine}{Exception}";
 
-        public SerilogLogger(Serilog.ILogger adaptee)
-        {
-            this._adaptee = adaptee;
+            // Try to get the minimun log level from config.  If failed, defaults to Information.
+            LogEventLevel mininumLevel;
+            if(Enum.TryParse(ConfigurationManager.AppSettings["log:minimum-level"], out mininumLevel) == false)
+            {
+                mininumLevel = LogEventLevel.Information;
+            }
+
+            this._adaptee = new LoggerConfiguration()
+                .MinimumLevel.Is(mininumLevel)
+                .Enrich.WithProperty("Application", applicationName)
+                .Enrich.WithMachineName()
+                .WriteTo.RollingFile(logFile, outputTemplate: outputTemplate)
+                .CreateLogger();
         }
 
         public void Log(LogEntry entry)
