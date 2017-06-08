@@ -8,18 +8,10 @@ namespace RatanaLibrary.Common.Cache
     /// </summary>
     public class InMemoryCache : ICache
     {
-        private readonly TimeSpan DEFAULT_CACHE_DURATION = TimeSpan.FromDays(1);
-
         private static Object Lock = new Object();
 
         public InMemoryCache()
         {
-        }
-
-
-        T ICache.GetOrAdd<T>(String key, Func<T> orAdd)
-        {
-            return ((ICache)this).GetOrAdd(key, orAdd, DEFAULT_CACHE_DURATION);
         }
 
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
@@ -31,7 +23,7 @@ namespace RatanaLibrary.Common.Cache
             // If it's not found this time, add it to the cache.
             if (!this.TryGet(key, out value))
             {
-                lock(InMemoryCache.Lock)
+                lock (InMemoryCache.Lock)
                 {
                     if (!this.TryGet(key, out value))
                     {

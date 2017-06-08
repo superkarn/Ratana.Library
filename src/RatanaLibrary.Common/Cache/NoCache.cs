@@ -8,11 +8,6 @@ namespace RatanaLibrary.Common.Cache
     /// </summary>
     public class NoCache : ICache
     {
-        T ICache.GetOrAdd<T>(String key, Func<T> orAdd)
-        {
-            return ((ICache)this).GetOrAdd(key, orAdd, TimeSpan.FromDays(1));
-        }
-
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
         {
             return orAdd();

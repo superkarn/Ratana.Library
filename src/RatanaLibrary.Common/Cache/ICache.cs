@@ -11,18 +11,6 @@ namespace RatanaLibrary.Common.Cache
     /// </summary>
     public interface ICache
     {
-
-        /// <summary>
-        /// Get the item based on the key from the cache if it exists.
-        /// If not, it calls the orAdd method and saves the result with 
-        /// the given expiration and returns the result.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="orAdd"></param>
-        /// <returns></returns>
-        T GetOrAdd<T>(String key, Func<T> orAdd);
-
         /// <summary>
         /// Get the item based on the key from the cache if it exists.
         /// If not, it calls the orAdd method and saves the result with 

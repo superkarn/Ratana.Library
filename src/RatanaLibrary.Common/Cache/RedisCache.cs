@@ -16,8 +16,6 @@ namespace RatanaLibrary.Common.Cache
         ConnectionMultiplexer redis;
         IDatabase db;
 
-        private readonly TimeSpan DEFAULT_CACHE_DURATION = TimeSpan.FromDays(1);
-
         public RedisCache(): this(new RedisSettings() { Server="localhost" })
         {
         }
@@ -51,11 +49,6 @@ namespace RatanaLibrary.Common.Cache
             {
                 this.db = this.redis.GetDatabase(0);
             }
-        }
-
-        T ICache.GetOrAdd<T>(String key, Func<T> orAdd)
-        {
-            return ((ICache)this).GetOrAdd(key, orAdd, this.DEFAULT_CACHE_DURATION);
         }
 
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
