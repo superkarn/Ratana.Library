@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using RatanaLibrary.Common.Cache;
 using System;
+using Tests.RatanaLibrary.Common.Attributes;
 
 namespace Tests.RatanaLibrary.Common.Cache
 {
@@ -8,6 +9,7 @@ namespace Tests.RatanaLibrary.Common.Cache
     public class InMemoryCacheTest
     {
         [Test]
+        [Continuous, Integration]
         [TestCase("InMemoryCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
         [TestCase("InMemoryCacheTest:GetOrAdd:test-key2", "", "test-fake-value")]
         public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
@@ -50,6 +52,7 @@ namespace Tests.RatanaLibrary.Common.Cache
         }
 
         [Test]
+        [Continuous, Integration]
         [TestCase("InMemoryCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
         [TestCase("InMemoryCacheTest:Remove:test-key", "", "test-value-2")]
         [TestCase("", "test-value-1", "test-value-2")]

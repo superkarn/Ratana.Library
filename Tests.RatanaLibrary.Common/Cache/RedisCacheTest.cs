@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using RatanaLibrary.Common.Cache;
 using System;
+using Tests.RatanaLibrary.Common.Attributes;
 
 namespace Tests.RatanaLibrary.Common.Cache
 {
@@ -13,6 +14,7 @@ namespace Tests.RatanaLibrary.Common.Cache
         };
 
         [Test]
+        [Continuous, Integration]
         [TestCase("RedisCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
         [TestCase("RedisCacheTest:GetOrAdd:test-key2", "", "test-fake-value")]
         public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
@@ -55,6 +57,7 @@ namespace Tests.RatanaLibrary.Common.Cache
         }
 
         [Test]
+        [Continuous, Integration]
         public void GetOrAddAnonymousType()
         {
             #region Arrange
@@ -98,6 +101,7 @@ namespace Tests.RatanaLibrary.Common.Cache
         }
 
         [Test]
+        [Continuous, Integration]
         [TestCase("RedisCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
         [TestCase("RedisCacheTest:Remove:test-key", "", "test-value-2")]
         [TestCase("", "test-value-1", "test-value-2")]

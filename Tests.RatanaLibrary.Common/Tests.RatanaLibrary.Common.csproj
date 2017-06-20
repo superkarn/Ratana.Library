@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ContinuousAttribute.cs" />
+    <Compile Include="Attributes\IntegrationAttribute.cs" />
+    <Compile Include="Attributes\UnitAttribute.cs" />
     <Compile Include="Cache\InMemoryCacheTest.cs" />
     <Compile Include="Cache\NoCacheTest.cs" />
     <Compile Include="Cache\RedisCacheTest.cs" />

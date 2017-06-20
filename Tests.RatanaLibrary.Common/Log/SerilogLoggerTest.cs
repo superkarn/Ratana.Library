@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using RatanaLibrary.Common.Log;
 using System;
+using Tests.RatanaLibrary.Common.Attributes;
 
 namespace Tests.RatanaLibrary.Common.Log
 {
@@ -9,6 +10,7 @@ namespace Tests.RatanaLibrary.Common.Log
     public class SerilogLoggerTest
     {
         [Test]
+        [Continuous, Integration]
         public void LogJustMessage()
         {
             #region Arrange
@@ -38,6 +40,7 @@ namespace Tests.RatanaLibrary.Common.Log
         }
 
         [Test]
+        [Continuous, Integration]
         public void LogWithException()
         {
             #region Arrange
@@ -70,6 +73,7 @@ namespace Tests.RatanaLibrary.Common.Log
         }
 
         [Test]
+        [Continuous, Integration]
         public void LogWithArguments()
         {
             #region Arrange
