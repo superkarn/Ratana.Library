@@ -9,13 +9,23 @@ namespace Tests.RatanaLibrary.Common.Log
     [TestFixture]
     public class SerilogLoggerTest
     {
+        private readonly SerilogLogger.SerilogSettings _serilogSettings = new SerilogLogger.SerilogSettings();
+
+        [SetUp]
+        public void Initialize()
+        {
+            this._serilogSettings.ApplicationName = "SerilogLoggerTest";
+            this._serilogSettings.LogPath = @"C:\logs";
+            this._serilogSettings.LogFile = String.Format(@"{0}\{1}-{{Date}}.log", this._serilogSettings.LogPath, this._serilogSettings.ApplicationName);
+        }
+
         [Test]
         [Continuous, Integration]
         public void LogJustMessage()
         {
             #region Arrange
             // Set up some variables
-            var logger = new SerilogLogger(applicationName: "SerilogLoggerTest");
+            var logger = new SerilogLogger(this._serilogSettings);
 
             // TODO set minimum level to verbose, so we can test all levels
             #endregion
@@ -45,7 +55,7 @@ namespace Tests.RatanaLibrary.Common.Log
         {
             #region Arrange
             // Set up some variables
-            var logger = new SerilogLogger(applicationName: "SerilogLoggerTest");
+            var logger = new SerilogLogger(this._serilogSettings);
 
             // TODO set minimum level to verbose, so we can test all levels
             #endregion
@@ -78,7 +88,7 @@ namespace Tests.RatanaLibrary.Common.Log
         {
             #region Arrange
             // Set up some variables
-            var logger = new SerilogLogger(applicationName: "SerilogLoggerTest");
+            var logger = new SerilogLogger(this._serilogSettings);
 
             // TODO set minimum level to verbose, so we can test all levels
             #endregion

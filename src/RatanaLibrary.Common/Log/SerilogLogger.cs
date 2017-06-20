@@ -13,25 +13,14 @@ namespace RatanaLibrary.Common.Log
     {
         private readonly Serilog.ILogger _adaptee;
 
-        public SerilogLogger(string applicationName = "DefaultApplicationName")
+        public SerilogLogger(SerilogSettings settings)
         {
-            var logPath = ConfigurationManager.AppSettings["log:path"] ?? @"C:\logs";
-            var logFile = String.Format(@"{0}\{1}-{{Date}}.log", logPath, applicationName);
-            var outputTemplate = @"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} machine={MachineName} application={Application} level={Level} {Message}{NewLine}{Exception}";
-
-            // Try to get the minimun log level from config.  If failed, defaults to Information.
-            LogEventLevel mininumLevel;
-            if(Enum.TryParse(ConfigurationManager.AppSettings["log:minimum-level"], out mininumLevel) == false)
-            {
-                mininumLevel = LogEventLevel.Information;
-            }
-
             this._adaptee = new LoggerConfiguration()
-                .MinimumLevel.Is(mininumLevel)
-                .Enrich.WithProperty("Application", applicationName)
+                .MinimumLevel.Is(settings.MinimumLevel)
+                .Enrich.WithProperty("Application", settings.ApplicationName)
                 .Enrich.WithMachineName()
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile(logFile, outputTemplate: outputTemplate)
+                .WriteTo.RollingFile(settings.LogFile, outputTemplate: settings.OutputTemplate)
                 .CreateLogger();
         }
 
@@ -63,6 +52,25 @@ namespace RatanaLibrary.Common.Log
                 default:
                     this._adaptee.Fatal(entry.Exception, entry.Message, entry.Arguments);
                     break;
+            }
+        }
+
+
+        public class SerilogSettings
+        {
+            public string ApplicationName { get; set; }
+            public string LogPath { get; set; }
+            public string LogFile { get; set; }
+            public string OutputTemplate { get; set; }
+            public LogEventLevel MinimumLevel { get; set; }
+
+            public SerilogSettings()
+            {
+                this.ApplicationName = "DefaultApplicationName";
+                this.LogPath = @"C:\logs";
+                this.LogFile = String.Format(@"{0}\{1}-{{Date}}.log", this.LogPath, this.ApplicationName);
+                this.OutputTemplate = @"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} machine={MachineName} application={Application} level={Level} {Message}{NewLine}{Exception}";
+                this.MinimumLevel = LogEventLevel.Information;
             }
         }
     }
