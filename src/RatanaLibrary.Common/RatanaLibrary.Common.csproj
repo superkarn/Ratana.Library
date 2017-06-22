@@ -67,6 +67,9 @@
     <Compile Include="Cache\InMemoryCache.cs" />
     <Compile Include="Cache\NoCache.cs" />
     <Compile Include="Cache\RedisCache.cs" />
+    <Compile Include="Email\EmailerExtensions.cs" />
+    <Compile Include="Email\IEmailer.cs" />
+    <Compile Include="Email\SystemNetEmailer.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\LogEntry.cs" />
     <Compile Include="Log\LoggerExtentions.cs" />
