@@ -13,6 +13,11 @@ namespace RatanaLibrary.Common.Profile
 
         public DisposableStopwatch GetStopwatch(LoggingEventType loggingEventType, string key)
         {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                key = "Profiler.Stopwatch";
+            }
+
             return new DisposableStopwatch(this._logger, loggingEventType, key);
         }
     }

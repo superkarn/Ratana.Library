@@ -1,10 +1,6 @@
 ﻿using RatanaLibrary.Common.Log;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RatanaLibrary.Common.Profile
 {
@@ -35,7 +31,7 @@ namespace RatanaLibrary.Common.Profile
                 this._stopwatch.Stop();
 
                 // TODO log something better
-                this._logger.Log(this._severity, $"key={this._key}: elapsedTime={this._stopwatch.Elapsed.ToString()}");
+                this._logger.Log(this._severity, $"key={this._key} elapsedTime={this._stopwatch.Elapsed.ToString()}");
             }
         }
     }

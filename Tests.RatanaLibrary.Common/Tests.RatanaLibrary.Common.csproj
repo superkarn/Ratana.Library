@@ -57,6 +57,7 @@
     <Compile Include="Cache\RedisCacheTest.cs" />
     <Compile Include="Email\SystemNetEmailerTest.cs" />
     <Compile Include="Log\SerilogLoggerTest.cs" />
+    <Compile Include="Profile\ProfilerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
