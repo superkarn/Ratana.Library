@@ -75,6 +75,10 @@
     <Compile Include="Log\LoggerExtentions.cs" />
     <Compile Include="Log\LoggingEventType.cs" />
     <Compile Include="Log\SerilogLogger.cs" />
+    <Compile Include="Profile\DisposableStopwatch.cs" />
+    <Compile Include="Profile\IProfiler.cs" />
+    <Compile Include="Profile\Profiler.cs" />
+    <Compile Include="Profile\ProfilerExtentions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
