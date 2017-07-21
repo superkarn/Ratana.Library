@@ -6,8 +6,10 @@ namespace RatanaLibrary.Common.Email
     {
         public static void Send(this IEmailer emailer, string fromAddress, string toAddress, string subject, string body)
         {
-            var mailMessage = new MailMessage(fromAddress, toAddress, subject, body);
-            emailer.Send(mailMessage);
+            using (var mailMessage = new MailMessage(fromAddress, toAddress, subject, body))
+            {
+                emailer.Send(mailMessage);
+            }
         }
     }
 }

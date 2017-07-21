@@ -21,8 +21,8 @@ namespace Tests.RatanaLibrary.Common.Email
 
         [Test]
         [Integration]
-        [TestCase("test@example.com", "RatanaLibrary.Common SystemNetEmailerTest", "")]
-        [TestCase("test@example.com", "RatanaLibrary.Common SystemNetEmailerTest", "SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters")]
+        [TestCase("to@example.com", "RatanaLibrary.Common SystemNetEmailerTest", "")]
+        [TestCase("to@example.com", "RatanaLibrary.Common SystemNetEmailerTest", "SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters")]
         public void SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters( string toAddress, string subject, string body)
         {
             #region Arrange
@@ -36,7 +36,7 @@ namespace Tests.RatanaLibrary.Common.Email
                 Credentials = new NetworkCredential(_smtpUsername, _smtpPassword)
             };
 
-            var emailer = new SystemNetEmailer(_smptClient);
+            IEmailer emailer = new SystemNetEmailer(_smptClient);
             using (var mailMessage = new MailMessage(_smtpUsername, toAddress)
             {
                 Subject = subject,
@@ -47,6 +47,39 @@ namespace Tests.RatanaLibrary.Common.Email
                 emailer.Send(mailMessage);
                 #endregion
             }
+            #endregion
+
+
+            #region Assert
+            // 1. Make sure there's no exceptions
+            // 2. If using a valid toAddress, check that the message arrived
+            #endregion
+        }
+
+
+        [Test]
+        [Integration]
+        [TestCase("from@example.com", "to@example.com", "RatanaLibrary.Common SystemNetEmailerTest", "")]
+        [TestCase("from@example.com", "to@example.com", "RatanaLibrary.Common SystemNetEmailerTest", "SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters")]
+        public void SendEmail_ShouldSendSuccessfully_WhenCallingViaExtentionMethod(string fromAddress, string toAddress, string subject, string body)
+        {
+            #region Arrange
+            _smptClient = new SmtpClient()
+            {
+                Host = _smtpHost,
+                Port = _smtpPort,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_smtpUsername, _smtpPassword)
+            };
+
+            IEmailer emailer = new SystemNetEmailer(_smptClient);
+            #endregion
+
+
+            #region Act
+            emailer.Send(fromAddress, toAddress, subject, body);
             #endregion
 
 
