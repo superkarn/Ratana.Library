@@ -61,9 +61,20 @@ Profiler class currently provides one usage: `DisposableStopwatch`.  You can use
 ```C#
 ILogger logger;
 IProfiler profiler = new Profiler(logger);
-            
+
+       
+using (profiler.GetStopwatchVerbose("MyKey"))
+{
+    // track work time at Verbose level
+}
+       
+using (profiler.GetStopwatchDebug("MyKey"))
+{
+    // track work time at Debug level
+}
+
 using (profiler.GetStopwatchInformation("MyKey"))
 {
-    // do some work
+    // track work time at Information level
 }
 ```
