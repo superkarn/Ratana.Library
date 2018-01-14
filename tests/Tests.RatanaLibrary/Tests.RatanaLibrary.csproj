@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.8.1" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RatanaLibrary.Cache\RatanaLibrary.Cache.csproj" />
+    <ProjectReference Include="..\..\src\RatanaLibrary.Email\RatanaLibrary.Email.csproj" />
+    <ProjectReference Include="..\..\src\RatanaLibrary.Log\RatanaLibrary.Log.csproj" />
+    <ProjectReference Include="..\..\src\RatanaLibrary.Profiler\RatanaLibrary.Profiler.csproj" />
+  </ItemGroup>
+
+</Project>

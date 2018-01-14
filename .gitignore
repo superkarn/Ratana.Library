@@ -59,7 +59,7 @@ artifacts/
 *.tlh
 *.tmp
 *.tmp_proj
-*.log
+#*.log (Commenting this out because of RatanaLibrary.Log project)
 *.vspscc
 *.vssscc
 .builds
