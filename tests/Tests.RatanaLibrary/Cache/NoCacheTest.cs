@@ -16,19 +16,21 @@ namespace Tests.RatanaLibrary.Common.Cache
         {
             #region Arrange
             // Set up some variables
-            var cache = new NoCache();
+            ICache cache = new NoCache();
             #endregion
 
 
             #region Act
             // 1 Try to save cacheValue1 under cacheKey.
-            var returnedCachValue1 = ((ICache)cache).GetOrAdd(cacheKey, () =>
+            // Since there is no cache, cacheValue is returned.
+            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue;
             });
 
             // 2 Try to save cacheValue2 under cacheKey.
-            var returnedCachValue2 = ((ICache)cache).GetOrAdd(cacheKey, () =>
+            // Since there is no cache, fakeValue is returned.
+            var returnedCachValue2 = cache.GetOrAdd(cacheKey, () =>
             {
                 return fakeValue;
             });
@@ -51,19 +53,19 @@ namespace Tests.RatanaLibrary.Common.Cache
         {
             #region Arrange
             // Set up some variables
-            var cache = new NoCache();
+            ICache cache = new NoCache();
             #endregion
 
 
             #region Act
             // 1 Try to save cacheValue1 under cacheKey.
-            var returnedCachValue1 = ((ICache)cache).GetOrAdd(cacheKey, () =>
+            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue1;
             });
 
             // 2 Remove the cacheKey
-            ((ICache)cache).Remove(cacheKey);
+            cache.Remove(cacheKey);
             #endregion
 
 

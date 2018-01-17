@@ -25,7 +25,7 @@ namespace Tests.RatanaLibrary.Common.Log
         {
             #region Arrange
             // Set up some variables
-            var logger = new SerilogLogger(this._serilogSettings);
+            ILogger logger = new SerilogLogger(this._serilogSettings);
 
             // TODO set minimum level to verbose, so we can test all levels
             #endregion
@@ -55,7 +55,7 @@ namespace Tests.RatanaLibrary.Common.Log
         {
             #region Arrange
             // Set up some variables
-            var logger = new SerilogLogger(this._serilogSettings);
+            ILogger logger = new SerilogLogger(this._serilogSettings);
 
             // TODO set minimum level to verbose, so we can test all levels
             #endregion
@@ -88,7 +88,7 @@ namespace Tests.RatanaLibrary.Common.Log
         {
             #region Arrange
             // Set up some variables
-            var logger = new SerilogLogger(this._serilogSettings);
+            ILogger logger = new SerilogLogger(this._serilogSettings);
 
             // TODO set minimum level to verbose, so we can test all levels
             #endregion

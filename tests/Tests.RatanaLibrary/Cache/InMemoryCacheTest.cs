@@ -15,10 +15,10 @@ namespace Tests.RatanaLibrary.Common.Cache
         {
             #region Arrange
             // Set up some variables
-            var cache = new InMemoryCache();
+            ICache cache = new InMemoryCache();
 
             // Make sure the key we're about to test is empty
-            ((ICache)cache).Remove(cacheKey);
+            cache.Remove(cacheKey);
             #endregion
 
 
@@ -26,13 +26,14 @@ namespace Tests.RatanaLibrary.Common.Cache
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
             //   and returned to returnedCachValue1;
-            var returnedCachValue1 = ((ICache)cache).GetOrAdd(cacheKey, () =>
+            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
                 {
                     return cacheValue;
                 });
 
             // 2 Try to save fakeValue under cacheKey.
-            var returnedCachValue2 = ((ICache)cache).GetOrAdd(cacheKey, () =>
+            // Since the key already exist, fakeValue is never reached.
+            var returnedCachValue2 = cache.GetOrAdd(cacheKey, () =>
                 {
                     return fakeValue;
                 });
@@ -40,7 +41,7 @@ namespace Tests.RatanaLibrary.Common.Cache
 
 
             #region Assert
-            // returnedCachValue1 should equal cacheValue because the cache is empty.
+            // returnedCachValue1 should equal cacheValue because the cache was empty.
             Assert.AreEqual(cacheValue, returnedCachValue1);
 
             // returnedCachValue2 should equal cacheValue because the cache exists, 
@@ -59,10 +60,10 @@ namespace Tests.RatanaLibrary.Common.Cache
         {
             #region Arrange
             // Set up some variables
-            var cache = new InMemoryCache();
+            ICache cache = new InMemoryCache();
 
             // Make sure the key we're about to test is empty
-            ((ICache)cache).Remove(cacheKey);
+            cache.Remove(cacheKey);
             #endregion
 
 
@@ -70,16 +71,16 @@ namespace Tests.RatanaLibrary.Common.Cache
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
             //   and returned to returnedCachValue1;
-            var returnedCachValue1 = ((ICache)cache).GetOrAdd(cacheKey, () =>
+            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue1;
             });
 
             // 2 Remove the cacheKey
-            ((ICache)cache).Remove(cacheKey);
+            cache.Remove(cacheKey);
 
             // 3 Try to save cacheValue2 under cacheKey again
-            var returnedCachValue2 = ((ICache)cache).GetOrAdd(cacheKey, () =>
+            var returnedCachValue2 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue2;
             });
