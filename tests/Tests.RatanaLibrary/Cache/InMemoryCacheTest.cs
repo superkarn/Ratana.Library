@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using RatanaLibrary.Cache;
+using System;
 using Tests.RatanaLibrary.Attributes;
 
 namespace Tests.RatanaLibrary.Common.Cache
@@ -53,9 +54,36 @@ namespace Tests.RatanaLibrary.Common.Cache
 
         [Test]
         [Continuous, Integration]
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase("		")]
+        public void GetOrAdd_ShouldFailWithNullOrWhiteSpaceKey(string cacheKey)
+        {
+            #region Arrange 
+            // Set up some variables
+            ICache cache = new InMemoryCache();
+            #endregion
+
+
+            #region Act & Assert
+            // GetOrAdd() should throw ArgumentException because the key is invalid.
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+                {
+                    return "cacheValue";
+                });
+            });
+
+            Assert.AreEqual("key", ex.ParamName);
+            #endregion
+        }
+
+        [Test]
+        [Continuous, Integration]
         [TestCase("InMemoryCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
         [TestCase("InMemoryCacheTest:Remove:test-key", "", "test-value-2")]
-        [TestCase("", "test-value-1", "test-value-2")]
         public void Remove(string cacheKey, string cacheValue1, string cacheValue2)
         {
             #region Arrange
@@ -92,6 +120,31 @@ namespace Tests.RatanaLibrary.Common.Cache
             // because the cache was empty the second time.
             Assert.AreNotEqual(cacheValue1, returnedCachValue2);
             Assert.AreEqual(cacheValue2, returnedCachValue2);
+            #endregion
+        }
+        
+        [Test]
+        [Continuous, Integration]
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase("		")]
+        public void Remove_ShouldFailWithNullOrWhiteSpaceKey(string cacheKey)
+        {
+            #region Arrange 
+            // Set up some variables
+            ICache cache = new InMemoryCache();
+            #endregion
+
+
+            #region Act & Assert
+            // GetOrAdd() should throw ArgumentException because the key is invalid.
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                cache.Remove(cacheKey);
+            });
+
+            Assert.AreEqual("key", ex.ParamName);
             #endregion
         }
     }

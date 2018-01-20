@@ -23,6 +23,12 @@ namespace RatanaLibrary.Cache
 
         T IMultilevelCache.GetOrAdd<T>(string key, Func<T> orAdd, params TimeSpan[] expiration)
         {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
             // Validate expiration array.  Make sure each cache level is accounted for.
             if (expiration.Length != this.Caches.Count)
             {
@@ -78,12 +84,24 @@ namespace RatanaLibrary.Cache
 
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
         {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
             // If one expiration is passed in, treat it as only one level
             return ((IMultilevelCache)this).GetOrAdd(key, orAdd, expiration);
         }
 
         void ICache.Remove(String key)
         {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
             foreach (ICache cache in this.Caches)
             {
                 cache.Remove(key);
@@ -92,6 +110,12 @@ namespace RatanaLibrary.Cache
 
         Boolean ICache.TryGet<T>(string key, out T value)
         {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
             value = default(T);
             foreach (ICache cache in this.Caches)
             {

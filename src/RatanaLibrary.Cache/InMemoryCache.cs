@@ -19,6 +19,12 @@ namespace RatanaLibrary.Cache
 
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
         {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
             T value = default(T);
 
             // Try to get the item
@@ -46,6 +52,12 @@ namespace RatanaLibrary.Cache
 
         void ICache.Remove(String key)
         {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
             this.iMemoryCache.Remove(key);
         }
 
@@ -62,6 +74,12 @@ namespace RatanaLibrary.Cache
         /// <returns></returns>
         Boolean ICache.TryGet<T>(String key, out T value)
         {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
             return this.iMemoryCache.TryGetValue<T>(key, out value);
         }
     }

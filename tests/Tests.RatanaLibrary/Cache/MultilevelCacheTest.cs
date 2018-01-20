@@ -13,7 +13,6 @@ namespace Tests.RatanaLibrary.Common.Cache
         [Continuous, Integration]
         [TestCase("MultilevelCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
         [TestCase("MultilevelCacheTest:GetOrAdd:test-key2", "", "test-fake-value")]
-        [TestCase("", "test-value", "test-fake-value")]
         public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
         {
             #region Arrange 
@@ -81,10 +80,47 @@ namespace Tests.RatanaLibrary.Common.Cache
         }
 
         [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase("		")]
+        public void GetOrAdd_ShouldFailWithNullOrWhiteSpaceKey(string cacheKey)
+        {
+            #region Arrange 
+            // Set up some variables
+            var cacheLevel1 = new Mock<ICache>();
+            var cacheLevel2 = new Mock<ICache>();
+            var cacheLevel3 = new Mock<ICache>();
+
+            IMultilevelCache cache = new MultilevelCache(
+                cacheLevel1.Object,
+                cacheLevel2.Object,
+                cacheLevel3.Object
+            );
+            #endregion
+
+
+            #region Act & Assert
+            // GetOrAdd() should throw ArgumentException because the key is invalid.
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+                    {
+                        return "cacheValue";
+                    },
+                    TimeSpan.MaxValue,
+                    TimeSpan.MaxValue,
+                    TimeSpan.MaxValue);
+            });
+
+            Assert.AreEqual("key", ex.ParamName);
+            #endregion
+        }
+
+        [Test]
         [Continuous, Integration]
         [TestCase("MultilevelCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
         [TestCase("MultilevelCacheTest:Remove:test-key", "", "test-value-2")]
-        [TestCase("", "test-value-1", "test-value-2")]
         public void Remove(string cacheKey, string cacheValue1, string cacheValue2)
         {
             #region Arrange
@@ -136,6 +172,38 @@ namespace Tests.RatanaLibrary.Common.Cache
             // because the cache was empty the second time.
             Assert.AreNotEqual(cacheValue1, returnedCachValue2);
             Assert.AreEqual(cacheValue2, returnedCachValue2);
+            #endregion
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        [TestCase("		")]
+        public void Remove_ShouldFailWithNullOrWhiteSpaceKey(string cacheKey)
+        {
+            #region Arrange 
+            // Set up some variables
+            var cacheLevel1 = new Mock<ICache>();
+            var cacheLevel2 = new Mock<ICache>();
+            var cacheLevel3 = new Mock<ICache>();
+
+            IMultilevelCache cache = new MultilevelCache(
+                cacheLevel1.Object,
+                cacheLevel2.Object,
+                cacheLevel3.Object
+            );
+            #endregion
+
+
+            #region Act & Assert
+            // GetOrAdd() should throw ArgumentException because the key is invalid.
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                cache.Remove(cacheKey);
+            });
+
+            Assert.AreEqual("key", ex.ParamName);
             #endregion
         }
     }
