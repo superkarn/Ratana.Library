@@ -17,5 +17,11 @@ namespace RatanaLibrary.Cache
         {
             // Nothing to do
         }
+
+        Boolean ICache.TryGet<T>(string key, out T value)
+        {
+            value = default(T);
+            return true;
+        }
     }
 }

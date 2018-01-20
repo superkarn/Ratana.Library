@@ -24,11 +24,11 @@ namespace RatanaLibrary.Cache
             // Try to get the item
             // If the item is not found, lock and try again.
             // If it's not found this time, add it to the cache.
-            if (!this.TryGet(key, out value))
+            if (!((ICache)this).TryGet(key, out value))
             {
                 lock (InMemoryCache.Lock)
                 {
-                    if (!this.TryGet(key, out value))
+                    if (!((ICache)this).TryGet(key, out value))
                     {
                         value = orAdd();
 
@@ -60,7 +60,7 @@ namespace RatanaLibrary.Cache
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        private Boolean TryGet<T>(String key, out T value)
+        Boolean ICache.TryGet<T>(String key, out T value)
         {
             return this.iMemoryCache.TryGetValue<T>(key, out value);
         }

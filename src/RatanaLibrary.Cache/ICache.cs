@@ -24,5 +24,16 @@ namespace RatanaLibrary.Cache
         /// </summary>
         /// <param name="key"></param>
         void Remove(String key);
+
+        /// <summary>
+        /// Try and get a cached item by key.  
+        /// If the key is found, set it in value and return true.  
+        /// Else return false.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        Boolean TryGet<T>(String key, out T value);
     }
 }
