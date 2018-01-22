@@ -292,22 +292,17 @@ namespace Tests.RatanaLibrary.Cache
             // 2 Remove the cacheKey
             cache.Remove(cacheKey);
 
-            // 3 Try to save cacheValue2 under cacheKey again
-            var returnedCachValue2 = cache.GetOrAdd(cacheKey, () =>
-                {
-                    return cacheValue2;
-                },
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(1));
+            // 3 Try to get the cached value
+            var tryGetResult = cache.TryGet(cacheKey, out string returnedCachValue2);
             #endregion
 
 
             #region Assert
-            // returnedCachValue2 should equal cacheValue2 (but not cacheValue1)
-            // because the cache was empty the second time.
-            Assert.AreNotEqual(cacheValue1, returnedCachValue2);
-            Assert.AreEqual(cacheValue2, returnedCachValue2);
+            // tryGetResult should be false because the key wasn't found
+            Assert.IsFalse(tryGetResult);
+
+            // returnedCachValue2 should be null
+            Assert.AreEqual(default(string), returnedCachValue2);
             #endregion
         }
 

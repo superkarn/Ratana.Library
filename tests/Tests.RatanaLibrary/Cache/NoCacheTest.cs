@@ -94,12 +94,18 @@ namespace Tests.RatanaLibrary.Cache
 
             // 2 Remove the cacheKey
             cache.Remove(cacheKey);
+
+            // 3 Try to get the cached value
+            var tryGetResult = cache.TryGet(cacheKey, out string returnedCachValue2);
             #endregion
 
 
             #region Assert
-            // There is no cache.  There is nothing to assert.  
-            // Just make sure NoCache.Remove() doesn't throw an exception
+            // tryGetResult should always be true because there is no cache
+            Assert.IsTrue(tryGetResult);
+
+            // returnedCachValue2 should be null because the key isn't in the cache (because there's no cache)
+            Assert.AreEqual(default(string), returnedCachValue2);
             #endregion
         }
 
