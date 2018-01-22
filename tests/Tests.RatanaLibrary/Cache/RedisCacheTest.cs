@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using RatanaLibrary.Cache;
 using System;
+using System.Threading;
 using Tests.RatanaLibrary.Attributes;
 
 namespace Tests.RatanaLibrary.Cache
@@ -194,6 +195,73 @@ namespace Tests.RatanaLibrary.Cache
             });
 
             Assert.AreEqual("key", ex.ParamName);
+            #endregion
+        }
+
+        [Test]
+        [Continuous, Integration]
+        [TestCase("RedisCacheTest:TryGet_NonExistingKey:test-key")]
+        public void TryGet_NonExistingKey(string cacheKey)
+        {
+            #region Arrange
+            // Set up some variables
+            ICache cache = new RedisCache(this._redisSettings);
+
+            // Make sure the key we're about to test is empty
+            cache.Remove(cacheKey);
+            #endregion
+
+
+            #region Act
+            // 1 Try to get the non existing key
+            var tryGetResult = cache.TryGet(cacheKey, out string returnedCachValue1);
+            #endregion
+
+
+            #region Assert
+            // tryGetResult should be false because the key wasn't found
+            Assert.IsFalse(tryGetResult);
+
+            // returnedCachValue1 should be null
+            Assert.AreEqual(default(string), returnedCachValue1);
+            #endregion
+        }
+
+        [Test]
+        [Continuous, Integration]
+        [TestCase("RedisCacheTest:Expiration:test-key", "test-value-1")]
+        public void Expiration(string cacheKey, string cacheValue1)
+        {
+            #region Arrange
+            // Set up some variables
+            ICache cache = new RedisCache(this._redisSettings);
+
+            // Make sure the key we're about to test is empty
+            cache.Remove(cacheKey);
+            #endregion
+
+
+            #region Act
+            // 1 Try to save cacheValue under cacheKey for 1 ms
+            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+            {
+                return cacheValue1;
+            }, TimeSpan.FromMilliseconds(1));
+
+            // 2 Wait for the cache to expired
+            Thread.Sleep(TimeSpan.FromMilliseconds(10));
+
+            // 3 Try to get the cached value
+            var tryGetResult = cache.TryGet(cacheKey, out string returnedCachValue2);
+            #endregion
+
+
+            #region Assert
+            // tryGetResult should be false because the key wasn't found
+            Assert.IsFalse(tryGetResult);
+
+            // returnedCachValue2 should be null
+            Assert.AreEqual(default(string), returnedCachValue2);
             #endregion
         }
     }
