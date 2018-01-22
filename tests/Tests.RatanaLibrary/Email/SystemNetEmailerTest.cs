@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using Tests.RatanaLibrary.Attributes;
 
-namespace Tests.RatanaLibrary.Common.Email
+namespace Tests.RatanaLibrary.Email
 {
     [TestFixture]
     public class SystemNetEmailerTest

@@ -4,7 +4,7 @@ using RatanaLibrary.Log;
 using RatanaLibrary.Profile;
 using Tests.RatanaLibrary.Attributes;
 
-namespace Tests.RatanaLibrary.Common.Profile
+namespace Tests.RatanaLibrary.Profile
 {
     [TestFixture]
     public class ProfilerTest

@@ -3,7 +3,7 @@ using RatanaLibrary.Log;
 using System;
 using Tests.RatanaLibrary.Attributes;
 
-namespace Tests.RatanaLibrary.Common.Log
+namespace Tests.RatanaLibrary.Log
 {
 
     [TestFixture]

@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatanaLibrary.Profiler", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatanaLibrary.Cache", "src\RatanaLibrary.Cache\RatanaLibrary.Cache.csproj", "{750E2CC7-124E-40A9-9F9C-D81F28A88F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RatanaLibrary.Log", "src\RatanaLibrary.Log\RatanaLibrary.Log.csproj", "{408B3ADF-D25D-4403-9725-522B0928C021}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RatanaLibrary.Log", "src\RatanaLibrary.Log\RatanaLibrary.Log.csproj", "{408B3ADF-D25D-4403-9725-522B0928C021}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{713C4BAD-A89B-47BC-9636-7FA55A7D0842}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.RatanaLibrary", "tests\Tests.RatanaLibrary\Tests.RatanaLibrary.csproj", "{F17BCB79-FCAD-4CD0-A5A6-9F281ABA3178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.RatanaLibrary", "tests\Tests.RatanaLibrary\Tests.RatanaLibrary.csproj", "{F17BCB79-FCAD-4CD0-A5A6-9F281ABA3178}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

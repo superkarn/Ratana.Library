@@ -4,7 +4,7 @@ using RatanaLibrary.Cache;
 using System;
 using Tests.RatanaLibrary.Attributes;
 
-namespace Tests.RatanaLibrary.Common.Cache
+namespace Tests.RatanaLibrary.Cache
 {
     [TestFixture]
     public class MultilevelCacheTest
@@ -76,6 +76,74 @@ namespace Tests.RatanaLibrary.Common.Cache
             // so fakeValue was never returned.
             Assert.AreEqual(cacheValue, returnedCachValue2);
             Assert.AreNotEqual(fakeValue, returnedCachValue2);
+            #endregion
+        }
+
+        [Test]
+        [Continuous, Integration]
+        [TestCase("MultilevelCacheTest:GetOrAdd_Level1InMemoryLevel2Redis:test-key1", "test-value", "test-fake-value")]
+        [TestCase("MultilevelCacheTest:GetOrAdd_Level1InMemoryLevel2Redis:test-key2", "", "test-fake-value")]
+        public void GetOrAdd_Level1InMemoryLevel2Redis(string cacheKey, string cacheValue, string fakeValue)
+        {
+            #region Arrange 
+            // Set up some variables
+            var redisSettings = new RedisCache.RedisSettings()
+            {
+                Server = "localhost"
+            };
+
+            ICache cacheLevel2 = new InMemoryCache();
+            ICache cacheLevel1 = new RedisCache(redisSettings);
+            
+            IMultilevelCache cache = new MultilevelCache(
+                cacheLevel1,
+                cacheLevel2
+            );
+
+
+            // Make sure the key we're about to test is empty
+            cache.Remove(cacheKey);
+            #endregion
+
+
+            #region Act
+            // 1 Try to save cacheValue under cacheKey.
+            //   Since this key is new, the cacheValue should be saved to the cache
+            //   and returned to returnedCachValue1;
+            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+                {
+                    return cacheValue;
+                },
+                TimeSpan.FromMinutes(5),
+                TimeSpan.FromMinutes(5));
+            
+            // 2 Try to save fakeValue under cacheKey.
+            // Since the key already exist, fakeValue is never reached.
+            var returnedCachValue2 = cache.GetOrAdd(cacheKey, () =>
+                {
+                    return fakeValue;
+                },
+                TimeSpan.FromMinutes(5),
+                TimeSpan.FromMinutes(5));
+
+            // 2.1 Get the values from cacheLevel1 and cacheLevel2
+            cacheLevel1.TryGet<string>(cacheKey, out string returnedCachLevel1Value);
+            cacheLevel2.TryGet<string>(cacheKey, out string returnedCachLevel2Value);
+            #endregion
+
+
+            #region Assert
+            // returnedCachValue1 should equal cacheValue because the cache was empty.
+            Assert.AreEqual(cacheValue, returnedCachValue1);
+
+            // returnedCachValue2 should equal cacheValue because the cache exists, 
+            // so fakeValue was never returned.
+            Assert.AreEqual(cacheValue, returnedCachValue2);
+            Assert.AreNotEqual(fakeValue, returnedCachValue2);
+
+            // the returned values from cacheLevel1 and cacheLevel2 should match cacheValue
+            Assert.AreEqual(cacheValue, returnedCachLevel1Value);
+            Assert.AreEqual(cacheValue, returnedCachLevel2Value);
             #endregion
         }
 

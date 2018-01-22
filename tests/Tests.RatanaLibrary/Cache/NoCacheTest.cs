@@ -3,7 +3,7 @@ using RatanaLibrary.Cache;
 using System;
 using Tests.RatanaLibrary.Attributes;
 
-namespace Tests.RatanaLibrary.Common.Cache
+namespace Tests.RatanaLibrary.Cache
 {
     [TestFixture]
     public class NoCacheTest
