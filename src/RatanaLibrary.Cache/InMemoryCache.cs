@@ -8,13 +8,13 @@ namespace RatanaLibrary.Cache
     /// </summary>
     public class InMemoryCache : ICache
     {
-        private IMemoryCache iMemoryCache;
+        private IMemoryCache _memoryCache;
         private static Object Lock = new Object();
 
         public InMemoryCache()
         {
             MemoryCacheOptions options = new MemoryCacheOptions();
-            this.iMemoryCache = new MemoryCache(options);
+            this._memoryCache = new MemoryCache(options);
         }
 
         T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
@@ -38,10 +38,10 @@ namespace RatanaLibrary.Cache
                     {
                         value = orAdd();
 
-                        using (var entry = this.iMemoryCache.CreateEntry(key))
+                        using (var entry = this._memoryCache.CreateEntry(key))
                         {
                             entry.Value = value;
-                            this.iMemoryCache.Set(key, value, DateTime.Now.Add(expiration));
+                            this._memoryCache.Set(key, value, DateTime.Now.Add(expiration));
                         }
                     }
                 }
@@ -58,7 +58,7 @@ namespace RatanaLibrary.Cache
                 throw new ArgumentException("The key cannot be null or white space.", "key");
             }
 
-            this.iMemoryCache.Remove(key);
+            this._memoryCache.Remove(key);
         }
 
 
@@ -80,7 +80,7 @@ namespace RatanaLibrary.Cache
                 throw new ArgumentException("The key cannot be null or white space.", "key");
             }
 
-            return this.iMemoryCache.TryGetValue<T>(key, out value);
+            return this._memoryCache.TryGetValue<T>(key, out value);
         }
     }
 }

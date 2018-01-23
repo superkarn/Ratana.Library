@@ -9,16 +9,16 @@ namespace RatanaLibrary.Email
     /// </summary>
     public class SystemNetEmailer : IEmailer
     {
-        private SmtpClient Smpt { get; set; }
+        private SmtpClient _smpt { get; set; }
 
         public SystemNetEmailer(SmtpClient smpt)
         {
-            this.Smpt = smpt;
+            this._smpt = smpt;
         }
 
         public void Send(MailMessage mailMessage)
         {
-            this.Smpt.Send(mailMessage);
+            this._smpt.Send(mailMessage);
         }
     }
 }
