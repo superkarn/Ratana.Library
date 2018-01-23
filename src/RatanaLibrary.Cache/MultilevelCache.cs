@@ -76,6 +76,7 @@ namespace RatanaLibrary.Cache
                 }
 
                 cache.GetOrAdd(key, () => value, expiration[ii]);
+                ii++;
             }
 
 
