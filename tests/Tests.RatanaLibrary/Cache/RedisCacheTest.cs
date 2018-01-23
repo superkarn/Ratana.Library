@@ -11,7 +11,7 @@ namespace Tests.RatanaLibrary.Cache
     {
         private readonly RedisCache.RedisSettings _redisSettings = new RedisCache.RedisSettings()
         {
-            Server = "localhost"
+            Server = "192.168.1.21"
         };
 
         [Test]
@@ -32,15 +32,15 @@ namespace Tests.RatanaLibrary.Cache
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
-            //   and returned to returnedCachValue1;
-            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+            //   and returned to returnedCacheValue1;
+            var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue;
             });
 
             // 2 Try to save fakeValue under cacheKey.
             // Since the key already exist, fakeValue is never reached.
-            var returnedCachValue2 = cache.GetOrAdd(cacheKey, () =>
+            var returnedCacheValue2 = cache.GetOrAdd(cacheKey, () =>
             {
                 return fakeValue;
             });
@@ -48,13 +48,12 @@ namespace Tests.RatanaLibrary.Cache
 
 
             #region Assert
-            // returnedCachValue1 should equal cacheValue because the cache was empty.
-            Assert.AreEqual(cacheValue, returnedCachValue1);
+            // returnedCacheValue1 should equal cacheValue because the cache was empty.
+            Assert.AreEqual(cacheValue, returnedCacheValue1);
 
-            // returnedCachValue2 should equal cacheValue because the cache exists, 
+            // returnedCacheValue2 should equal cacheValue because the cache exists, 
             // so fakeValue was never returned.
-            Assert.AreEqual(cacheValue, returnedCachValue2);
-            Assert.AreNotEqual(fakeValue, returnedCachValue2);
+            Assert.AreEqual(cacheValue, returnedCacheValue2);
             #endregion
         }
 
@@ -76,7 +75,7 @@ namespace Tests.RatanaLibrary.Cache
             // GetOrAdd() should throw ArgumentException because the key is invalid.
             var ex = Assert.Throws<ArgumentException>(() =>
             {
-                var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+                var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
                 {
                     return "cacheValue";
                 });
@@ -105,14 +104,14 @@ namespace Tests.RatanaLibrary.Cache
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
-            //   and returned to returnedCachValue1;
-            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+            //   and returned to returnedCacheValue1;
+            var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue;
             });
 
             // 2 Try to save fakeValue under cacheKey.
-            var returnedCachValue2 = cache.GetOrAdd(cacheKey, () =>
+            var returnedCacheValue2 = cache.GetOrAdd(cacheKey, () =>
             {
                 return fakeValue;
             });
@@ -120,13 +119,12 @@ namespace Tests.RatanaLibrary.Cache
 
 
             #region Assert
-            // returnedCachValue1 should equal cacheValue because the cache is empty.
-            Assert.AreEqual(cacheValue, returnedCachValue1);
+            // returnedCacheValue1 should equal cacheValue because the cache is empty.
+            Assert.AreEqual(cacheValue, returnedCacheValue1);
 
-            // returnedCachValue2 should equal cacheValue because the cache exists, 
+            // returnedCacheValue2 should equal cacheValue because the cache exists, 
             // so fakeValue was never returned.
-            Assert.AreEqual(cacheValue, returnedCachValue2);
-            Assert.AreNotEqual(fakeValue, returnedCachValue2);
+            Assert.AreEqual(cacheValue, returnedCacheValue2);
             #endregion
         }
 
@@ -148,8 +146,8 @@ namespace Tests.RatanaLibrary.Cache
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
-            //   and returned to returnedCachValue1;
-            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+            //   and returned to returnedCacheValue1;
+            var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue1;
             });
@@ -158,7 +156,7 @@ namespace Tests.RatanaLibrary.Cache
             cache.Remove(cacheKey);
 
             // 3 Try to get the non existing key
-            var tryGetResult = cache.TryGet(cacheKey, out string returnedCachValue2);
+            var tryGetResult = cache.TryGet(cacheKey, out string returnedCacheValue2);
             #endregion
 
 
@@ -166,8 +164,8 @@ namespace Tests.RatanaLibrary.Cache
             // tryGetResult should be false because the key wasn't found
             Assert.IsFalse(tryGetResult);
 
-            // returnedCachValue2 should be null
-            Assert.AreEqual(default(string), returnedCachValue2);
+            // returnedCacheValue2 should be null
+            Assert.AreEqual(default(string), returnedCacheValue2);
             #endregion
         }
 
@@ -212,7 +210,7 @@ namespace Tests.RatanaLibrary.Cache
 
             #region Act
             // 1 Try to get the non existing key
-            var tryGetResult = cache.TryGet(cacheKey, out string returnedCachValue1);
+            var tryGetResult = cache.TryGet(cacheKey, out string returnedCacheValue1);
             #endregion
 
 
@@ -220,8 +218,8 @@ namespace Tests.RatanaLibrary.Cache
             // tryGetResult should be false because the key wasn't found
             Assert.IsFalse(tryGetResult);
 
-            // returnedCachValue1 should be null
-            Assert.AreEqual(default(string), returnedCachValue1);
+            // returnedCacheValue1 should be null
+            Assert.AreEqual(default(string), returnedCacheValue1);
             #endregion
         }
 
@@ -241,7 +239,7 @@ namespace Tests.RatanaLibrary.Cache
 
             #region Act
             // 1 Try to save cacheValue under cacheKey for 1 ms
-            var returnedCachValue1 = cache.GetOrAdd(cacheKey, () =>
+            var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue1;
             }, TimeSpan.FromMilliseconds(1));
@@ -250,7 +248,7 @@ namespace Tests.RatanaLibrary.Cache
             Thread.Sleep(TimeSpan.FromMilliseconds(10));
 
             // 3 Try to get the cached value
-            var tryGetResult = cache.TryGet(cacheKey, out string returnedCachValue2);
+            var tryGetResult = cache.TryGet(cacheKey, out string returnedCacheValue2);
             #endregion
 
 
@@ -258,8 +256,8 @@ namespace Tests.RatanaLibrary.Cache
             // tryGetResult should be false because the key wasn't found
             Assert.IsFalse(tryGetResult);
 
-            // returnedCachValue2 should be null
-            Assert.AreEqual(default(string), returnedCachValue2);
+            // returnedCacheValue2 should be null
+            Assert.AreEqual(default(string), returnedCacheValue2);
             #endregion
         }
     }
