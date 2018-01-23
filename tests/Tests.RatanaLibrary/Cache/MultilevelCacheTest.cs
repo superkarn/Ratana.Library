@@ -12,7 +12,7 @@ namespace Tests.RatanaLibrary.Cache
     {
         private readonly RedisCache.RedisSettings _redisSettings = new RedisCache.RedisSettings()
         {
-            Server = "192.168.1.21"
+            Server = "localhost"
         };
 
         [Test]
