@@ -11,15 +11,29 @@ A general library for personal projects.  Current features include
     * DisposableStopwatch
 
 # Cache
-This library supports these implementations of `ICache`: `NoCache`, `InMemoryCache`, and `RedisCache`.  
+This library supports these implementations of `ICache`: `NoCache`, `InMemoryCache`, `MultilevelCache` and `RedisCache`.  
 
 ```C#
-ICache cache = new RedisCache(new RedisCache.RedisSettings() { Server = "localhost" });
+// Redis
+var cache1 = new InMemoryCache();
             
-var cachedValue = cache.GetOrAdd("MyKey", () =>
+var cachedValue1 = cache1.GetOrAdd("MyKey", () =>
 {
     return "do some work";
 });
+
+// Multilevel cache using InMemory as L1 and Redis as L2
+var cache2 = new MultilevelCache(
+    new InMemoryCache(), // L1 cache
+    new RedisCache(new RedisCache.RedisSettings() { Server = "localhost" }) // L2 cache
+);
+
+var cachedValue2 = cache2.GetOrAdd("MyKey", () =>
+    {
+        return "do some work";
+    },
+    TimeSpan.FromSeconds(1), // L1 cache expiration
+    TimeSpan.FromHours(1)); // L2 cache expiration
 ```
 
 
