@@ -60,12 +60,16 @@ This library supports these implementations of `ILogger`: `SerilogLogger`
 
 ```C#
 ILogger logger;
-logger.Verbose("some message");
-logger.Debug("some message");
-logger.Information("some message");
-logger.Warning("some message");
-logger.Error("some message");
-logger.Fatal("some message");
+ILogContext context;
+context.Add("key1", "value1");
+context.Add("key2", "value2");
+
+logger.Verbose(context, "some message");
+logger.Debug(context, "some message with exception", exception);
+logger.Information(context, "some message with arguments: {myArg1}, {myArg2}", myArg1, myArg2);
+logger.Warning(context, "some message with exception and arguments: {myArg1}, {myArg2}", exception, myArg1, myArg2);
+logger.Error("some message with no context");
+logger.Fatal(context, "some message");
 ```
 
 

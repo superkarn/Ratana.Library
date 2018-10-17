@@ -1,7 +1,9 @@
 ﻿using Serilog;
+using Serilog.Context;
 using Serilog.Events;
 using System;
-using System.Configuration;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RatanaLibrary.Log
 {
@@ -15,43 +17,50 @@ namespace RatanaLibrary.Log
 
         public SerilogLogger(SerilogSettings settings)
         {
-            // TODO uncomment these 2 lines and fix the errors
             this._adaptee = new LoggerConfiguration()
                 .MinimumLevel.Is(settings.MinimumLevel)
                 .Enrich.WithProperty("Application", settings.ApplicationName)
-                //.Enrich.WithMachineName()
                 .Enrich.FromLogContext()
-                //.WriteTo.RollingFile(settings.LogFile, outputTemplate: settings.OutputTemplate)
+                .WriteTo.File(settings.LogFile, outputTemplate:settings.OutputTemplate, rollingInterval:RollingInterval.Day)
                 .CreateLogger();
         }
 
-        public void Log(LogEntry entry)
+        public void Log(ILogContext context, LogEntry entry)
         {
-            switch(entry.Severity)
+            var message = entry.Message;
+            // if log context is available, prepend it to the beginning of the message
+            if (context != null)
+            {
+                // not using Serilog LogContext because it requires using() for each property
+                // for now, format it ourselves
+                message = $"{context.ToString()} {entry.Message}";
+            }
+
+            switch (entry.Severity)
             {
                 case LoggingEventType.Verbose:
-                    this._adaptee.Verbose(entry.Exception, entry.Message, entry.Arguments);
+                    this._adaptee.Verbose(entry.Exception, message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Debug:
-                    this._adaptee.Debug(entry.Exception, entry.Message, entry.Arguments);
+                    this._adaptee.Debug(entry.Exception, message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Information:
-                    this._adaptee.Information(entry.Exception, entry.Message, entry.Arguments);
+                    this._adaptee.Information(entry.Exception, message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Warning:
-                    this._adaptee.Warning(entry.Exception, entry.Message, entry.Arguments);
+                    this._adaptee.Warning(entry.Exception, message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Error:
-                    this._adaptee.Error(entry.Exception, entry.Message, entry.Arguments);
+                    this._adaptee.Error(entry.Exception, message, entry.Arguments);
                     break;
 
                 case LoggingEventType.Fatal:
                 default:
-                    this._adaptee.Fatal(entry.Exception, entry.Message, entry.Arguments);
+                    this._adaptee.Fatal(entry.Exception, message, entry.Arguments);
                     break;
             }
         }
@@ -69,9 +78,39 @@ namespace RatanaLibrary.Log
             {
                 this.ApplicationName = "DefaultApplicationName";
                 this.LogPath = @"C:\logs";
-                this.LogFile = String.Format(@"{0}\{1}-{{Date}}.log", this.LogPath, this.ApplicationName);
-                this.OutputTemplate = @"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} machine={MachineName} application={Application} level={Level} {Message}{NewLine}{Exception}";
+                this.LogFile = String.Format(@"{0}\{1}.log", this.LogPath, this.ApplicationName);
+                this.OutputTemplate = @"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} application={Application} level={Level} {Message}{NewLine}{Exception}";
                 this.MinimumLevel = LogEventLevel.Information;
+            }
+        }
+
+
+        public class SerlogLogContext : ILogContext
+        {
+            public IDictionary<string, string> Data = new Dictionary<string, string>();
+
+            void ILogContext.Add(string key, string value)
+            {
+                this.Data.Add(key, value);
+            }
+
+            bool ILogContext.ContainsKey(string key)
+            {
+                return this.Data.ContainsKey(key);
+            }
+
+            bool ILogContext.Remove(string key)
+            {
+                return this.Data.Remove(key);
+            }
+
+            bool ILogContext.TryGetValue(string key, out string value)
+            {
+                return this.Data.TryGetValue(key, out value);
+            }
+            public override string ToString()
+            {
+                return string.Join(" ", this.Data.Select(x => $"{x.Key}={x.Value}").ToArray());
             }
         }
     }

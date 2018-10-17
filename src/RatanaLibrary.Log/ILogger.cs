@@ -7,6 +7,6 @@ namespace RatanaLibrary.Log
     /// </summary>
     public interface ILogger
     {
-        void Log(LogEntry entry);
+        void Log(ILogContext context, LogEntry entry);
     }
 }

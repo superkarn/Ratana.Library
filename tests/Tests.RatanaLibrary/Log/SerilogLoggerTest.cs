@@ -16,7 +16,7 @@ namespace Tests.RatanaLibrary.Log
         {
             this._serilogSettings.ApplicationName = "SerilogLoggerTest";
             this._serilogSettings.LogPath = @"C:\logs";
-            this._serilogSettings.LogFile = String.Format(@"{0}\{1}-{{Date}}.log", this._serilogSettings.LogPath, this._serilogSettings.ApplicationName);
+            this._serilogSettings.LogFile = String.Format(@"{0}\{1}.log", this._serilogSettings.LogPath, this._serilogSettings.ApplicationName);
         }
 
         [Test]
@@ -103,6 +103,42 @@ namespace Tests.RatanaLibrary.Log
             logger.Warning(message, null, "one", 2, new { a = "aaa", b = "bbb" }, logger, logger);
             logger.Error(message, null, "one", 2, new { a = "aaa", b = "bbb" }, logger, logger);
             logger.Fatal(message, null, "one", 2, new { a = "aaa", b = "bbb" }, logger, logger);
+            #endregion
+
+
+            #region Assert
+            // TODO check the actual log file
+            // but for now just making sure there's no exception.
+            #endregion
+        }
+
+        [Test]
+        [Continuous, Integration]
+        public void LogWithContext()
+        {
+            #region Arrange
+            // Set up some variables
+            ILogger logger = new SerilogLogger(this._serilogSettings);
+
+            ILogContext context = new SerilogLogger.SerlogLogContext();
+            context.Add("key1", "value1");
+            context.Add("key2", "value2");
+            context.Add("key3", "value3");
+
+            // TODO set minimum level to verbose, so we can test all levels
+            #endregion
+
+
+            #region Act
+            // Log each level with context
+            var message = "Testing SerilogLoggerTest.LogWithContext()";
+
+            logger.Verbose(context, message);
+            logger.Debug(context, message);
+            logger.Information(context, message);
+            logger.Warning(context, message);
+            logger.Error(context, message);
+            logger.Fatal(context, message);
             #endregion
 
 

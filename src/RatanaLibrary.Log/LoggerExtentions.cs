@@ -6,32 +6,56 @@ namespace RatanaLibrary.Log
     {
         public static void Verbose(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Verbose, message, exception, args));
+            logger.Verbose(null, message, exception, args);
+        }
+        public static void Verbose(this ILogger logger, ILogContext context, string message, Exception exception = null, params object[] args)
+        {
+            logger.Log(context, new LogEntry(LoggingEventType.Verbose, message, exception, args));
         }
 
         public static void Debug(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, message, exception, args));
+            logger.Log(null, new LogEntry(LoggingEventType.Debug, message, exception, args));
+        }
+        public static void Debug(this ILogger logger, ILogContext context, string message, Exception exception = null, params object[] args)
+        {
+            logger.Log(context, new LogEntry(LoggingEventType.Debug, message, exception, args));
         }
 
         public static void Information(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Information, message, exception, args));
+            logger.Log(null, new LogEntry(LoggingEventType.Information, message, exception, args));
+        }
+        public static void Information(this ILogger logger, ILogContext context, string message, Exception exception = null, params object[] args)
+        {
+            logger.Log(context, new LogEntry(LoggingEventType.Information, message, exception, args));
         }
 
         public static void Warning(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Warning, message, exception, args));
+            logger.Log(null, new LogEntry(LoggingEventType.Warning, message, exception, args));
+        }
+        public static void Warning(this ILogger logger, ILogContext context, string message, Exception exception = null, params object[] args)
+        {
+            logger.Log(context, new LogEntry(LoggingEventType.Warning, message, exception, args));
         }
 
         public static void Error(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Error, message, exception, args));
+            logger.Log(null, new LogEntry(LoggingEventType.Error, message, exception, args));
+        }
+        public static void Error(this ILogger logger, ILogContext context, string message, Exception exception = null, params object[] args)
+        {
+            logger.Log(context, new LogEntry(LoggingEventType.Error, message, exception, args));
         }
 
         public static void Fatal(this ILogger logger, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(LoggingEventType.Fatal, message, exception, args));
+            logger.Log(null, new LogEntry(LoggingEventType.Fatal, message, exception, args));
+        }
+        public static void Fatal(this ILogger logger, ILogContext context, string message, Exception exception = null, params object[] args)
+        {
+            logger.Log(context, new LogEntry(LoggingEventType.Fatal, message, exception, args));
         }
 
 
@@ -46,7 +70,7 @@ namespace RatanaLibrary.Log
         /// <param name="exception"></param>
         public static void Log(this ILogger logger, LoggingEventType severity, string message, Exception exception = null, params object[] args)
         {
-            logger.Log(new LogEntry(severity, message, exception, args));
+            logger.Log(null, new LogEntry(severity, message, exception, args));
         }
     }
 }
