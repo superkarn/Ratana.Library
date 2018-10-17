@@ -1,5 +1,4 @@
 ﻿using Serilog;
-using Serilog.Context;
 using Serilog.Events;
 using System;
 using System.Collections.Generic;
@@ -28,11 +27,12 @@ namespace RatanaLibrary.Log
         public void Log(ILogContext context, LogEntry entry)
         {
             var message = entry.Message;
-            // if log context is available, prepend it to the beginning of the message
+
+            // If log context is available, prepend it to the beginning of the message.
+            // Not using Serilog LogContext because it requires using() for each property
+            // For now, format it ourselves.
             if (context != null)
             {
-                // not using Serilog LogContext because it requires using() for each property
-                // for now, format it ourselves
                 message = $"{context.ToString()} {entry.Message}";
             }
 
@@ -78,7 +78,7 @@ namespace RatanaLibrary.Log
             {
                 this.ApplicationName = "DefaultApplicationName";
                 this.LogPath = @"C:\logs";
-                this.LogFile = String.Format(@"{0}\{1}.log", this.LogPath, this.ApplicationName);
+                this.LogFile = $"{this.LogPath}\\{this.ApplicationName}-.log";
                 this.OutputTemplate = @"{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} application={Application} level={Level} {Message}{NewLine}{Exception}";
                 this.MinimumLevel = LogEventLevel.Information;
             }
