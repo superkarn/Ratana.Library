@@ -11,19 +11,29 @@ variables:
   
   
 # do something before all the scripts are run
-#before_script:
+before_script:
+    #- "cd src/Ratana.Library.Cache"
   
-  
+
 build:
   stage: build
   script:
     - "cd src/Ratana.Library.Cache"
     - "dotnet restore"
     - "dotnet build"
-    
-    
+    - "cd ../Ratana.Library.Email"
+    - "dotnet restore"
+    - "dotnet build"
+    - "cd ../Ratana.Library.Log"
+    - "dotnet restore"
+    - "dotnet build"
+    - "cd ../Ratana.Library.Profiler"
+    - "dotnet restore"
+    - "dotnet build"
+   
+   
 test:
   stage: test
   script:
-    - "cd $test"
-    #- "dotnet test"
+    - "cd tests/Tests.Ratana.Library"
+    - "dotnet test --filter TestCategory=Continuous"
