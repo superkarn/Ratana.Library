@@ -15,7 +15,7 @@ namespace Tests.Ratana.Library.Cache
         };
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase("RedisCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
         [TestCase("RedisCacheTest:GetOrAdd:test-key2", "", "test-fake-value")]
         public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
@@ -58,7 +58,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase(null)]
         [TestCase("")]
         [TestCase(" ")]
@@ -86,7 +86,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         public void GetOrAdd_AnonymousType()
         {
             #region Arrange
@@ -129,7 +129,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase("RedisCacheTest:Remove:test-key", "test-value-1", "test-value-2")]
         [TestCase("RedisCacheTest:Remove:test-key", "", "test-value-2")]
         public void Remove(string cacheKey, string cacheValue1, string cacheValue2)
@@ -170,7 +170,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase(null)]
         [TestCase("")]
         [TestCase(" ")]
@@ -195,7 +195,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase("RedisCacheTest:TryGet_NonExistingKey:test-key")]
         public void TryGet_NonExistingKey(string cacheKey)
         {
@@ -224,7 +224,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase("RedisCacheTest:Expiration:test-key", "test-value-1")]
         public void Expiration(string cacheKey, string cacheValue1)
         {

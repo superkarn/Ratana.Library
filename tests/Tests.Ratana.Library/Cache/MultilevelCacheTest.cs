@@ -85,7 +85,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase("MultilevelCacheTest:GetOrAdd_L1InMemoryL2Redis:test-key1", "test-value", "test-fake-value")]
         public void GetOrAdd_L1InMemoryL2Redis(string cacheKey, string cacheValue, string fakeValue)
         {
@@ -146,7 +146,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase("MultilevelCacheTest:GetOrAdd_L1InMemoryL2Redis_L1ExpiredButNotL2:test-key1", "test-value-1", "test-value-2")]
         public void GetOrAdd_L1InMemoryL2Redis_L1ExpiredButNotL2(string cacheKey, string cacheValue1, string cacheValue2)
         {
@@ -305,7 +305,7 @@ namespace Tests.Ratana.Library.Cache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Integration]
         [TestCase("MultilevelCacheTest:Remove_L1InMemoryL2Redis:test-key", "test-value-1", "test-value-2")]
         public void Remove_L1InMemoryL2Redis(string cacheKey, string cacheValue1, string cacheValue2)
         {
