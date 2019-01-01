@@ -1,0 +1,29 @@
+image: microsoft/dotnet:latest
+
+
+stages:
+  - build
+  - test
+  
+  
+variables:
+  test: "tests/Tests.Ratana.Library"
+  
+  
+# do something before all the scripts are run
+#before_script:
+  
+  
+build:
+  stage: build
+  script:
+    - "cd src/Ratana.Library.Cache"
+    - "dotnet restore"
+    - "dotnet build"
+    
+    
+test:
+  stage: test
+  script:
+    - "cd $test"
+    #- "dotnet test"
