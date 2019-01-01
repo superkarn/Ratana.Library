@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <Version>0.6.0</Version>
+    <Authors>Karn Ratana</Authors>
+    <Copyright>2016</Copyright>
+    <PackageLicenseUrl>https://github.com/superkarn/Ratana.Library/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>http://assets.ratana.info/icons/logo-ratana-600x600.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/superkarn/Ratana.Library</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageReleaseNotes>Initial Version, for testing only.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
