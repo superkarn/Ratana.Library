@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ratana.Library.Cache\Ratana.Library.Cache.csproj" />
+    <ProjectReference Include="..\..\src\Ratana.Library.DistributedCache\Ratana.Library.DistributedCache.csproj" />
     <ProjectReference Include="..\..\src\Ratana.Library.Email\Ratana.Library.Email.csproj" />
     <ProjectReference Include="..\..\src\Ratana.Library.Log\Ratana.Library.Log.csproj" />
     <ProjectReference Include="..\..\src\Ratana.Library.Profiler\Ratana.Library.Profiler.csproj" />

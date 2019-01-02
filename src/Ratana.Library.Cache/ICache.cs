@@ -3,6 +3,9 @@
 namespace Ratana.Library.Cache
 {
     /// <summary>
+    /// This interface is deprecated.  Please use Ratana.Library.DistributedCache instead.
+    /// The code is kept for reference purposes.
+    /// 
     /// Provides an easy-to-use generic caching interface.
     /// </summary>
     public interface ICache

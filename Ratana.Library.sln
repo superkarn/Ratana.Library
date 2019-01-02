@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ratana.Library.Profiler", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Ratana.Library", "tests\Tests.Ratana.Library\Tests.Ratana.Library.csproj", "{719D8392-120F-47AC-8398-F5A86DF7B34A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ratana.Library.DistributedCache", "src\Ratana.Library.DistributedCache\Ratana.Library.DistributedCache.csproj", "{27B9EF4F-5A8A-47B4-89D4-35083EE3BF3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{719D8392-120F-47AC-8398-F5A86DF7B34A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{719D8392-120F-47AC-8398-F5A86DF7B34A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{719D8392-120F-47AC-8398-F5A86DF7B34A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27B9EF4F-5A8A-47B4-89D4-35083EE3BF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27B9EF4F-5A8A-47B4-89D4-35083EE3BF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27B9EF4F-5A8A-47B4-89D4-35083EE3BF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27B9EF4F-5A8A-47B4-89D4-35083EE3BF3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{048CDB33-2748-480A-8BA5-A222B948D2F4} = {FD8CD4F9-5DFE-4B61-80ED-EA1ED759DA3B}
 		{A27F9FB6-FBCF-4B6B-8DD0-0C33F7E5083C} = {FD8CD4F9-5DFE-4B61-80ED-EA1ED759DA3B}
 		{719D8392-120F-47AC-8398-F5A86DF7B34A} = {482F0629-2239-4AC7-80CE-D3946FDFB1A2}
+		{27B9EF4F-5A8A-47B4-89D4-35083EE3BF3A} = {FD8CD4F9-5DFE-4B61-80ED-EA1ED759DA3B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9CB3A3BF-AD13-473E-AE2C-1F87DFD37E15}
