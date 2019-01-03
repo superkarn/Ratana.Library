@@ -10,6 +10,8 @@ namespace Ratana.Library.DistributedCache
     /// <summary>
     /// An implementation of the IDistributedCache interface that provides multilevel caching.
     /// When instantiating MultilevelCache, the lowest level cache (e.g. L1) comes first in the parameter list.
+    /// 
+    /// TODO: there might be an issue with retrieving keys with empty values in Redis
     /// </summary>
     public class MultilevelCache : IDisposable, IDistributedCache
     {
@@ -17,7 +19,7 @@ namespace Ratana.Library.DistributedCache
         /// This is the list of caches to be used, 
         /// in the order that was received via the constructor.
         /// </summary>
-        protected IList<IDistributedCache> Caches { get; set; }
+        public IList<IDistributedCache> Caches { get; protected set; }
 
 
         public MultilevelCache(params IDistributedCache[] caches)
