@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="Moq" Version="4.8.1" />
     <PackageReference Include="NUnit" Version="3.9.0" />
@@ -26,6 +27,18 @@
     <ProjectReference Include="..\..\src\Ratana.Library.Email\Ratana.Library.Email.csproj" />
     <ProjectReference Include="..\..\src\Ratana.Library.Log\Ratana.Library.Log.csproj" />
     <ProjectReference Include="..\..\src\Ratana.Library.Profiler\Ratana.Library.Profiler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.gitlab-ci.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.local.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

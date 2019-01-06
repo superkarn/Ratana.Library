@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.Redis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
 using NUnit.Framework;
@@ -19,9 +20,28 @@ namespace Tests.Ratana.Library.DistributedCache
         [SetUp]
         public void Initialize()
         {
+            // Get environment name
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            // Get Redis info from config
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{environmentName}.json", true, true)
+                .Build();
+
+
+            // Default Redis host:port is localhost:6379
+            var host = string.IsNullOrWhiteSpace(config["redis:host"]) ? "localhost" : config["redis:host"];
+            int port = 6379;
+            try
+            {
+                port = int.Parse(config["redis:port"]);
+            }
+            catch { }
+
             RedisCacheOptions redisCacheOptions = new RedisCacheOptions();
             redisCacheOptions.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions();
-            redisCacheOptions.ConfigurationOptions.EndPoints.Add("localhost", 6379);
+            redisCacheOptions.ConfigurationOptions.EndPoints.Add(host, port);
 
             var cacheL1 = new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions()));
             var cacheL2 = new RedisCache(Options.Create(redisCacheOptions));

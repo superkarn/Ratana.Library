@@ -5,6 +5,8 @@ stages:
   - build
   - test
   
+services:
+  - redis:latest
   
 variables:
   test: "tests/Tests.Ratana.Library"
@@ -18,22 +20,23 @@ before_script:
 build:
   stage: build
   script:
-    - "cd src/Ratana.Library.Cache"
-    - "dotnet restore"
-    - "dotnet build"
-    - "cd ../Ratana.Library.Email"
-    - "dotnet restore"
-    - "dotnet build"
-    - "cd ../Ratana.Library.Log"
-    - "dotnet restore"
-    - "dotnet build"
-    - "cd ../Ratana.Library.Profiler"
-    - "dotnet restore"
-    - "dotnet build"
+    - cd src/Ratana.Library.Cache
+    - dotnet restore
+    - dotnet build
+    - cd ../Ratana.Library.Email
+    - dotnet restore
+    - dotnet build
+    - cd ../Ratana.Library.Log
+    - dotnet restore
+    - dotnet build
+    - cd ../Ratana.Library.Profiler
+    - dotnet restore
+    - dotnet build
    
    
 test:
   stage: test
   script:
-    - "cd tests/Tests.Ratana.Library"
-    - "dotnet test --filter TestCategory=Continuous"
+    - export ASPNETCORE_ENVIRONMENT="gitlab-ci"
+    - cd tests/Tests.Ratana.Library
+    - dotnet test --filter TestCategory=Continuous
