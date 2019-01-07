@@ -2,8 +2,7 @@ image: microsoft/dotnet:latest
 
 
 stages:
-  - build
-  - test
+  - buildAndTest
   
 services:
   - redis:latest
@@ -15,11 +14,13 @@ variables:
 # do something before all the scripts are run
 before_script:
     #- "cd src/Ratana.Library.Cache"
+    - export ASPNETCORE_ENVIRONMENT="gitlab-ci"
   
 
 build:
-  stage: build
+  stage: buildAndTest
   script:
+    # Build
     - cd src/Ratana.Library.Cache
     - dotnet restore
     - dotnet build
@@ -32,11 +33,14 @@ build:
     - cd ../Ratana.Library.Profiler
     - dotnet restore
     - dotnet build
-   
-   
-test:
-  stage: test
-  script:
-    - export ASPNETCORE_ENVIRONMENT="gitlab-ci"
-    - cd tests/Tests.Ratana.Library
+    # Test
+    - cd ../../tests/Tests.Ratana.Library
     - dotnet test --filter TestCategory=Continuous
+    
+    
+# Use this when you want the unit tests to be in a separate job and/or stage
+#test:
+#  stage: test
+#  script:
+#    - cd tests/Tests.Ratana.Library
+#    - dotnet test --filter TestCategory=Continuous
