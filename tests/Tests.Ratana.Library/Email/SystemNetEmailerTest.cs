@@ -1,6 +1,8 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Configuration;
+using Moq;
 using NUnit.Framework;
 using Ratana.Library.Email;
+using System;
 using System.Net;
 using System.Net.Mail;
 using Tests.Ratana.Library.Attributes;
@@ -12,32 +14,51 @@ namespace Tests.Ratana.Library.Email
     {
         private SmtpClient _smptClient;
 
-        // fill this out when you want to run the tests
-        private readonly string _smtpHost = "";
-        private readonly int _smtpPort = 587;
-        private readonly string _smtpUsername = "";
-        private readonly string _smtpPassword = "";
-        
+        [SetUp]
+        public void Initialize()
+        {
+            // Get environment name
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+            // Get Redis info from config
+            IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{environmentName}.json", true, true)
+                .Build();
+
+
+            // Default Redis host:port is localhost:6379
+            var host = string.IsNullOrWhiteSpace(config["smtp:host"]) ? "localhost" : config["smtp:host"];
+            var username = string.IsNullOrWhiteSpace(config["smtp:username"]) ? "localhost" : config["smtp:username"];
+            var password = string.IsNullOrWhiteSpace(config["smtp:password"]) ? "localhost" : config["smtp:password"];
+
+            int port = 587;
+            try { port = int.Parse(config["smtp:port"]); } catch { }
+
+            bool enableSsl = true;
+            try { enableSsl = bool.Parse(config["smtp:enableSsl"]); } catch { }
+
+            this._smptClient = new SmtpClient()
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = enableSsl,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(username, password)
+            };
+        }
+
 
         [Test]
         [Integration]
-        [TestCase("to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "")]
-        [TestCase("to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters")]
-        public void SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters( string toAddress, string subject, string body)
+        [TestCase("from@example.com", "to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "")]
+        [TestCase("from@example.com", "to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters")]
+        public void SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters(string fromAddress, string toAddress, string subject, string body)
         {
             #region Arrange
-            _smptClient = new SmtpClient()
-            {
-                Host = _smtpHost,
-                Port = _smtpPort,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(_smtpUsername, _smtpPassword)
-            };
-
-            IEmailer emailer = new SystemNetEmailer(_smptClient);
-            using (var mailMessage = new MailMessage(_smtpUsername, toAddress)
+            IEmailer emailer = new SystemNetEmailer(this._smptClient);
+            using (var mailMessage = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
                 Body = body
@@ -64,17 +85,7 @@ namespace Tests.Ratana.Library.Email
         public void SendEmail_ShouldSendSuccessfully_WhenCallingViaExtentionMethod(string fromAddress, string toAddress, string subject, string body)
         {
             #region Arrange
-            _smptClient = new SmtpClient()
-            {
-                Host = _smtpHost,
-                Port = _smtpPort,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(_smtpUsername, _smtpPassword)
-            };
-
-            IEmailer emailer = new SystemNetEmailer(_smptClient);
+            IEmailer emailer = new SystemNetEmailer(this._smptClient);
             #endregion
 
 

@@ -33,11 +33,7 @@ namespace Tests.Ratana.Library.DistributedCache
             // Default Redis host:port is localhost:6379
             var host = string.IsNullOrWhiteSpace(config["redis:host"]) ? "localhost" : config["redis:host"];
             int port = 6379;
-            try
-            {
-                port = int.Parse(config["redis:port"]);
-            }
-            catch { }
+            try { port = int.Parse(config["redis:port"]); } catch { }
 
             RedisCacheOptions redisCacheOptions = new RedisCacheOptions();
             redisCacheOptions.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions();
@@ -54,7 +50,7 @@ namespace Tests.Ratana.Library.DistributedCache
 
         #region Get
         [Test]
-        [Integration]
+        [Continuous, Integration]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel1:test-key1", "test-value-1", "test-value-2")]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel1:test-key2", "", "test-value-2")]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel1:test-key3", "", "")]
@@ -85,7 +81,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Integration]
+        [Continuous, Integration]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel2:test-key1", null, "test-value-2")]
         public void GetLevel2_When_Level1_Is_Empty(string cacheKey, string cacheValue1Str, string cacheValue2Str)
         {
@@ -112,7 +108,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Integration]
+        [Continuous, Integration]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel2:test-key2")]
         public void GetLevel2_In_Redis_EmptyString_Becomes_Null(string cacheKey)
         {
@@ -342,6 +338,9 @@ namespace Tests.Ratana.Library.DistributedCache
             #region Arrange 
             // Convert string to byte[]
             byte[] cacheValue = Encoding.UTF8.GetBytes(cacheValueStr);
+
+            // Make sure the key we're about to test is empty
+            this._cache.Remove(cacheKey);
             #endregion
 
 
@@ -416,6 +415,9 @@ namespace Tests.Ratana.Library.DistributedCache
             #region Arrange 
             // Convert string to byte[]
             byte[] cacheValue = Encoding.UTF8.GetBytes(cacheValueStr);
+
+            // Make sure the key we're about to test is empty
+            this._cache.Remove(cacheKey);
             #endregion
 
 

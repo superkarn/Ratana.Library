@@ -14,7 +14,7 @@ namespace Ratana.Library.Cache
         /// This is the list of caches to be used, 
         /// in the order that was received via the constructor.
         /// </summary>
-        protected IList<ICache> Caches { get; set; }
+        public IList<ICache> Caches { get; set; }
 
         public MultilevelCache(params ICache[] caches)
         {

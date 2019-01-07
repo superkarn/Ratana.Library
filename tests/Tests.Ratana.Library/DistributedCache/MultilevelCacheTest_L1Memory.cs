@@ -224,6 +224,9 @@ namespace Tests.Ratana.Library.DistributedCache
             #region Arrange 
             // Convert string to byte[]
             byte[] cacheValue = Encoding.UTF8.GetBytes(cacheValueStr);
+
+            // Make sure the key we're about to test is empty
+            this._cache.Remove(cacheKey);
             #endregion
 
 
@@ -269,6 +272,9 @@ namespace Tests.Ratana.Library.DistributedCache
             #region Arrange 
             // Convert string to byte[]
             byte[] cacheValue = Encoding.UTF8.GetBytes(cacheValueStr);
+
+            // Make sure the key we're about to test is empty
+            this._cache.Remove(cacheKey);
             #endregion
 
 
