@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
 using Ratana.Library.Cache;
 using System;
 using System.Threading;
@@ -9,6 +10,14 @@ namespace Tests.Ratana.Library.Cache
     [TestFixture]
     public class InMemoryCacheTest
     {
+        private ICache _cache;
+
+        [SetUp]
+        public void Initialize()
+        {
+            this._cache = new InMemoryCache();
+        }
+
         [Test]
         [Continuous, Integration]
         [TestCase("InMemoryCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
@@ -16,11 +25,8 @@ namespace Tests.Ratana.Library.Cache
         public void GetOrAdd(string cacheKey, string cacheValue, string fakeValue)
         {
             #region Arrange
-            // Set up some variables
-            ICache cache = new InMemoryCache();
-
             // Make sure the key we're about to test is empty
-            cache.Remove(cacheKey);
+            this._cache.Remove(cacheKey);
             #endregion
 
 
@@ -28,14 +34,14 @@ namespace Tests.Ratana.Library.Cache
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
             //   and returned to returnedCacheValue1;
-            var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
+            var returnedCacheValue1 = this._cache.GetOrAdd(cacheKey, () =>
                 {
                     return cacheValue;
                 });
 
             // 2 Try to save fakeValue under cacheKey.
             // Since the key already exist, fakeValue is never reached.
-            var returnedCacheValue2 = cache.GetOrAdd(cacheKey, () =>
+            var returnedCacheValue2 = this._cache.GetOrAdd(cacheKey, () =>
                 {
                     return fakeValue;
                 });
@@ -61,8 +67,7 @@ namespace Tests.Ratana.Library.Cache
         public void GetOrAdd_ShouldFailWithNullOrWhiteSpaceKey(string cacheKey)
         {
             #region Arrange 
-            // Set up some variables
-            ICache cache = new InMemoryCache();
+            // Nothing to do
             #endregion
 
 
@@ -70,7 +75,7 @@ namespace Tests.Ratana.Library.Cache
             // GetOrAdd() should throw ArgumentException because the key is invalid.
             var ex = Assert.Throws<ArgumentException>(() =>
             {
-                var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
+                var returnedCacheValue1 = this._cache.GetOrAdd(cacheKey, () =>
                 {
                     return "cacheValue";
                 });
@@ -87,11 +92,8 @@ namespace Tests.Ratana.Library.Cache
         public void Remove(string cacheKey, string cacheValue1, string cacheValue2)
         {
             #region Arrange
-            // Set up some variables
-            ICache cache = new InMemoryCache();
-
             // Make sure the key we're about to test is empty
-            cache.Remove(cacheKey);
+            this._cache.Remove(cacheKey);
             #endregion
 
 
@@ -99,16 +101,16 @@ namespace Tests.Ratana.Library.Cache
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
             //   and returned to returnedCacheValue1;
-            var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
+            var returnedCacheValue1 = this._cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue1;
             });
 
             // 2 Remove the cacheKey
-            cache.Remove(cacheKey);
+            this._cache.Remove(cacheKey);
 
             // 3 Try to get the cached value
-            var tryGetResult = cache.TryGet(cacheKey, out string returnedCacheValue2);
+            var tryGetResult = this._cache.TryGet(cacheKey, out string returnedCacheValue2);
             #endregion
 
 
@@ -130,8 +132,7 @@ namespace Tests.Ratana.Library.Cache
         public void Remove_ShouldFailWithNullOrWhiteSpaceKey(string cacheKey)
         {
             #region Arrange 
-            // Set up some variables
-            ICache cache = new InMemoryCache();
+            // Nothing to do
             #endregion
 
 
@@ -139,7 +140,7 @@ namespace Tests.Ratana.Library.Cache
             // GetOrAdd() should throw ArgumentException because the key is invalid.
             var ex = Assert.Throws<ArgumentException>(() =>
             {
-                cache.Remove(cacheKey);
+                this._cache.Remove(cacheKey);
             });
 
             Assert.AreEqual("key", ex.ParamName);
@@ -152,17 +153,14 @@ namespace Tests.Ratana.Library.Cache
         public void TryGet_NonExistingKey(string cacheKey)
         {
             #region Arrange
-            // Set up some variables
-            ICache cache = new InMemoryCache();
-
             // Make sure the key we're about to test is empty
-            cache.Remove(cacheKey);
+            this._cache.Remove(cacheKey);
             #endregion
 
 
             #region Act
             // 1 Try to get the non existing key
-            var tryGetResult = cache.TryGet(cacheKey, out string returnedCacheValue1);
+            var tryGetResult = this._cache.TryGet(cacheKey, out string returnedCacheValue1);
             #endregion
 
 
@@ -181,17 +179,14 @@ namespace Tests.Ratana.Library.Cache
         public void Expiration(string cacheKey, string cacheValue1)
         {
             #region Arrange
-            // Set up some variables
-            ICache cache = new InMemoryCache();
-
             // Make sure the key we're about to test is empty
-            cache.Remove(cacheKey);
+            this._cache.Remove(cacheKey);
             #endregion
 
 
             #region Act
             // 1 Try to save cacheValue under cacheKey for 1 ms
-            var returnedCacheValue1 = cache.GetOrAdd(cacheKey, () =>
+            var returnedCacheValue1 = this._cache.GetOrAdd(cacheKey, () =>
             {
                 return cacheValue1;
             }, TimeSpan.FromMilliseconds(1));
@@ -200,7 +195,7 @@ namespace Tests.Ratana.Library.Cache
             Thread.Sleep(TimeSpan.FromMilliseconds(10));
 
             // 3 Try to get the cached value
-            var tryGetResult = cache.TryGet(cacheKey, out string returnedCacheValue2);
+            var tryGetResult = this._cache.TryGet(cacheKey, out string returnedCacheValue2);
             #endregion
 
 
