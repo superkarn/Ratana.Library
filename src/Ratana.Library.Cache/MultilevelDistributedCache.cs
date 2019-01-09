@@ -1,25 +1,59 @@
-﻿using System;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ratana.Library.Cache
 {
     /// <summary>
-    /// An implementation of the IMultilevelCache interface that contains a list of ICache.
+    /// An implementation of the IMultilevelCache interface using Ratana.Library.DistributedCache.MultilevelCache.
+    /// that contains a list of ICache.
     /// Each ICache can save the data at different intervals, with the lowest level having
     /// presumably the fastest retrieval time.
     /// </summary>
-    public class MultilevelCache : IMultilevelCache
+    public class MultilevelDistributedCache : ICache, IMultilevelCache
     {
-        /// <summary>
-        /// This is the list of caches to be used, 
-        /// in the order that was received via the constructor.
-        /// </summary>
-        public IList<ICache> Caches { get; set; }
-
-        public MultilevelCache(params ICache[] caches)
+        public Ratana.Library.DistributedCache.MultilevelCache Cache
         {
-            this.Caches = caches.ToList();
+            get => this._cache;
+        }
+
+        private Ratana.Library.DistributedCache.MultilevelCache _cache;
+
+        public MultilevelDistributedCache(Ratana.Library.DistributedCache.MultilevelCache cache)
+        {
+            this._cache = cache;
+        }
+
+        T ICache.GetOrAdd<T>(string key, Func<T> orAdd, TimeSpan expiration)
+        {
+            // Make sure there is a valid key.
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("The key cannot be null or white space.", "key");
+            }
+
+            T value = default(T);
+
+            // Try to get the item
+            // If the item is not found, add it to the cache.
+            if (!((ICache)this).TryGet(key, out value))
+            {
+                value = orAdd();
+
+                string json = null;
+                if (value != null)
+                {
+                    json = JsonConvert.SerializeObject(value);
+                }
+
+                this._cache.SetString(key, json, new DistributedCacheEntryOptions()
+                {
+                    AbsoluteExpirationRelativeToNow = expiration
+                });
+            }
+
+            return value;
         }
 
         T IMultilevelCache.GetOrAdd<T>(string key, Func<T> orAdd, params TimeSpan[] expiration)
@@ -31,7 +65,7 @@ namespace Ratana.Library.Cache
             }
 
             // Validate expiration array.  Make sure each cache level is accounted for.
-            if (expiration.Length != this.Caches.Count)
+            if (expiration.Length != this._cache.Caches.Count)
             {
                 throw new ArgumentOutOfRangeException(
                     "expiration",
@@ -47,10 +81,12 @@ namespace Ratana.Library.Cache
             T value = default(T);
 
             // Loop through the caches until the key is found
-            foreach (ICache cache in this.Caches)
+            foreach (IDistributedCache cache in this._cache.Caches)
             {
-                if (cache.TryGet(key, out value))
+                var json = cache.GetString(key);
+                if (json != null)
                 {
+                    value = JsonConvert.DeserializeObject<T>(json);
                     break;
                 }
 
@@ -69,14 +105,20 @@ namespace Ratana.Library.Cache
             // Since the value was not found via TryGet() above for some caches,
             // calling GetOrAdd() on those will trigger their orAdd().
             // Wrap the value in an anonymous function and pass it in as orAdd().
-            foreach (ICache cache in this.Caches)
+            foreach (IDistributedCache cache in this._cache.Caches)
             {
                 if (ii >=  cacheLevelNeedingUpdate)
                 {
                     break;
                 }
 
-                cache.GetOrAdd(key, () => value, expiration[ii]);
+                string json = JsonConvert.SerializeObject(value);
+
+                cache.SetString(key, json, new DistributedCacheEntryOptions()
+                {
+                    AbsoluteExpirationRelativeToNow = expiration[ii]
+                });
+
                 ii++;
             }
 
@@ -84,7 +126,7 @@ namespace Ratana.Library.Cache
             return value;
         }
 
-        T ICache.GetOrAdd<T>(String key, Func<T> orAdd, TimeSpan expiration)
+        void ICache.Remove(string key)
         {
             // Make sure there is a valid key.
             if (string.IsNullOrWhiteSpace(key))
@@ -92,22 +134,7 @@ namespace Ratana.Library.Cache
                 throw new ArgumentException("The key cannot be null or white space.", "key");
             }
 
-            // If one expiration is passed in, treat it as only one level
-            return ((IMultilevelCache)this).GetOrAdd(key, orAdd, expiration);
-        }
-
-        void ICache.Remove(String key)
-        {
-            // Make sure there is a valid key.
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                throw new ArgumentException("The key cannot be null or white space.", "key");
-            }
-
-            foreach (ICache cache in this.Caches)
-            {
-                cache.Remove(key);
-            }
+            this._cache.Remove(key);
         }
 
         Boolean ICache.TryGet<T>(string key, out T value)
@@ -118,15 +145,17 @@ namespace Ratana.Library.Cache
                 throw new ArgumentException("The key cannot be null or white space.", "key");
             }
 
-            value = default(T);
-            foreach (ICache cache in this.Caches)
+            var json = this._cache.GetString(key);
+
+            if (json == null)
             {
-                if (cache.TryGet(key, out value))
-                {
-                    return true;
-                }
+                value = default(T);
+                return false;
             }
-            return false;
+
+            value = JsonConvert.DeserializeObject<T>(json);
+
+            return true;
         }
     }
 }
