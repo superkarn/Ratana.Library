@@ -21,12 +21,10 @@ namespace Ratana.Library.DistributedCache
         /// </summary>
         public IList<IDistributedCache> Caches { get; protected set; }
 
-
         public MultilevelCache(params IDistributedCache[] caches)
         {
             this.Caches = caches.ToList();
         }
-
 
         /// <summary>
         /// When MultilevelCache is being disposed, make sure to dispose of all caches that are IDisposable.

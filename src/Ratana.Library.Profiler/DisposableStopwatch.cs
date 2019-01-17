@@ -5,9 +5,7 @@ using System.Diagnostics;
 namespace Ratana.Library.Profile
 {
     public interface IDisposableStopwatch : IDisposable
-    {
-
-    }
+    { }
 
     public class DisposableStopwatch : IDisposableStopwatch
     {
