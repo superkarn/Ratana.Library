@@ -229,6 +229,5 @@ namespace Tests.Ratana.Library.Cache
             Assert.AreEqual(cacheValue2, returnedCacheL2Value);
             #endregion
         }
-        
     }
 }

@@ -5,7 +5,6 @@ using Tests.Ratana.Library.Attributes;
 
 namespace Tests.Ratana.Library.Log
 {
-
     [TestFixture]
     public class SerilogLoggerTest
     {
@@ -131,7 +130,6 @@ namespace Tests.Ratana.Library.Log
             // but for now just making sure there's no exception.
             #endregion
         }
-
 
         [Test]
         [Continuous, Integration]

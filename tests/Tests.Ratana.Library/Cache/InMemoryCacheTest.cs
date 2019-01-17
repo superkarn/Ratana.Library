@@ -28,8 +28,7 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
@@ -46,8 +45,7 @@ namespace Tests.Ratana.Library.Cache
                     return fakeValue;
                 });
             #endregion
-
-
+            
             #region Assert
             // returnedCacheValue1 should equal cacheValue because the cache was empty.
             Assert.AreEqual(cacheValue, returnedCacheValue1);
@@ -69,8 +67,7 @@ namespace Tests.Ratana.Library.Cache
             #region Arrange 
             // Nothing to do
             #endregion
-
-
+            
             #region Act & Assert
             // GetOrAdd() should throw ArgumentException because the key is invalid.
             var ex = Assert.Throws<ArgumentException>(() =>
@@ -95,8 +92,7 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
@@ -112,8 +108,7 @@ namespace Tests.Ratana.Library.Cache
             // 3 Try to get the cached value
             var tryGetResult = this._cache.TryGet(cacheKey, out string returnedCacheValue2);
             #endregion
-
-
+            
             #region Assert
             // tryGetResult should be false because the key wasn't found
             Assert.IsFalse(tryGetResult);
@@ -134,8 +129,7 @@ namespace Tests.Ratana.Library.Cache
             #region Arrange 
             // Nothing to do
             #endregion
-
-
+            
             #region Act & Assert
             // GetOrAdd() should throw ArgumentException because the key is invalid.
             var ex = Assert.Throws<ArgumentException>(() =>
@@ -156,14 +150,12 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Act
             // 1 Try to get the non existing key
             var tryGetResult = this._cache.TryGet(cacheKey, out string returnedCacheValue1);
             #endregion
-
-
+            
             #region Assert
             // tryGetResult should be false because the key wasn't found
             Assert.IsFalse(tryGetResult);
@@ -182,8 +174,7 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Act
             // 1 Try to save cacheValue under cacheKey for 1 ms
             var returnedCacheValue1 = this._cache.GetOrAdd(cacheKey, () =>
@@ -197,7 +188,6 @@ namespace Tests.Ratana.Library.Cache
             // 3 Try to get the cached value
             var tryGetResult = this._cache.TryGet(cacheKey, out string returnedCacheValue2);
             #endregion
-
 
             #region Assert
             // tryGetResult should be false because the key wasn't found

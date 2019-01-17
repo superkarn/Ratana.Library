@@ -38,7 +38,6 @@ namespace Tests.Ratana.Library.Cache
             this._cache = new RedisCache(redisSettings);
         }
 
-
         [Test]
         [Continuous, Integration]
         [TestCase("RedisCacheTest:GetOrAdd:test-key1", "test-value", "test-fake-value")]
