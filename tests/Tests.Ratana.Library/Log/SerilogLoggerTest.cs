@@ -29,7 +29,6 @@ namespace Tests.Ratana.Library.Log
             ILogger logger = new SerilogLogger(this._serilogSettings);
             #endregion
 
-
             #region Act
             // Log each level
             var message = "Testing SerilogLoggerTest.LogJustMessage()";
@@ -40,7 +39,6 @@ namespace Tests.Ratana.Library.Log
             logger.Error("      " + message);
             logger.Fatal("      " + message);
             #endregion
-
 
             #region Assert
             // TODO check the actual log file
@@ -57,7 +55,6 @@ namespace Tests.Ratana.Library.Log
             ILogger logger = new SerilogLogger(this._serilogSettings);
             #endregion
 
-
             #region Act
             // Log each level with arguments
             var message = "Testing SerilogLoggerTest.LogWithArguments() {str}, {num}, {object}, {loggerToString}, {@loggerSerialized}";
@@ -68,7 +65,6 @@ namespace Tests.Ratana.Library.Log
             logger.Error("      " + message, null, "one", 2, new { a = "aaa", b = "bbb" }, logger, logger);
             logger.Fatal("      " + message, null, "one", 2, new { a = "aaa", b = "bbb" }, logger, logger);
             #endregion
-
 
             #region Assert
             // TODO check the actual log file
@@ -89,8 +85,7 @@ namespace Tests.Ratana.Library.Log
             context.Add("key2", "value2");
             context.Add("key3", "value3");
             #endregion
-
-
+            
             #region Act
             // Log each level with context
             var message = "Testing SerilogLoggerTest.LogWithContext()";
@@ -101,7 +96,6 @@ namespace Tests.Ratana.Library.Log
             logger.Error(context, "      " + message);
             logger.Fatal(context, "      " + message);
             #endregion
-
 
             #region Assert
             // TODO check the actual log file
@@ -118,7 +112,6 @@ namespace Tests.Ratana.Library.Log
             ILogger logger = new SerilogLogger(this._serilogSettings);
             #endregion
 
-
             #region Act
             // Log each level
             var ex = new Exception("Test Exception");
@@ -132,7 +125,6 @@ namespace Tests.Ratana.Library.Log
             logger.Error("      " + message, ex);
             logger.Fatal("      " + message, ex);
             #endregion
-
 
             #region Assert
             // TODO check the actual log file
@@ -152,8 +144,7 @@ namespace Tests.Ratana.Library.Log
             // Set up some variables
             ILogger logger = new SerilogLogger(this._serilogSettings);
             #endregion
-
-
+            
             #region Act
             // Log each level
             var ex = new Exception("Test Exception");
@@ -167,8 +158,7 @@ namespace Tests.Ratana.Library.Log
             logger.Error("      " + message);
             logger.Fatal("      " + message);
             #endregion
-
-
+            
             #region Assert
             // TODO check the actual log file
             // but for now just making sure there's no exception.

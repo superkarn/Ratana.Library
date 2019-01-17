@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using Moq;
 using NUnit.Framework;
 using Ratana.Library.DistributedCache;
 using System;
 using System.Text;
-using System.Threading;
 using Tests.Ratana.Library.Attributes;
 
 namespace Tests.Ratana.Library.DistributedCache
@@ -39,13 +37,11 @@ namespace Tests.Ratana.Library.DistributedCache
 
             this._cache.Caches[0].Set(cacheKey, cacheValue1);
             #endregion
-
-
+            
             #region Act
             // Get the value for cacheKey
             var returnedCacheValue = this._cache.Get(cacheKey);
             #endregion
-
 
             #region Assert
             // returnedCacheValue1 should equal cacheValue1
@@ -54,7 +50,6 @@ namespace Tests.Ratana.Library.DistributedCache
             #endregion
         }
         #endregion
-
 
         #region GetAsync
         [Test]
@@ -70,14 +65,12 @@ namespace Tests.Ratana.Library.DistributedCache
             this._cache.Caches[0].Set(cacheKey, cacheValue1);
             #endregion
 
-
             #region Act
             // Get the value for cacheKey
             var task = this._cache.GetAsync(cacheKey);
             task.Wait();
             var returnedCacheValue = task.Result;
             #endregion
-
 
             #region Assert
             // returnedCacheValue1 should equal cacheValue1
@@ -86,7 +79,6 @@ namespace Tests.Ratana.Library.DistributedCache
             #endregion
         }
         #endregion
-
 
         #region Refresh
         [Test]
@@ -103,12 +95,10 @@ namespace Tests.Ratana.Library.DistributedCache
             );
             #endregion
 
-
             #region Act
             // Call Refresh
             cache.Refresh(cacheKey);
             #endregion
-
 
             #region Assert
             // Nothing to check, just make sure there's not exceptions.
@@ -128,22 +118,19 @@ namespace Tests.Ratana.Library.DistributedCache
                 cacheL1
             );
             #endregion
-
-
+            
             #region Act
             // Call Refresh
             var task = cache.RefreshAsync(cacheKey);
             task.Wait();
             #endregion
-
-
+            
             #region Assert
             // Nothing to check, just make sure there's not exceptions.
             #endregion
         }
         #endregion
-
-
+        
         #region Remove
         [Test]
         [Continuous, Integration]
@@ -156,8 +143,7 @@ namespace Tests.Ratana.Library.DistributedCache
             // Convert string to byte[]
             byte[] cacheValue = Encoding.UTF8.GetBytes(cacheValueStr);
             #endregion
-
-
+            
             #region Act
             // Add the key to cache
             this._cache.Set(cacheKey, cacheValue);
@@ -169,8 +155,7 @@ namespace Tests.Ratana.Library.DistributedCache
             // Call Remove
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Assert
             // Make sure the key is no longer in the cache
             returnedCacheValue = this._cache.Get(cacheKey);
@@ -189,8 +174,7 @@ namespace Tests.Ratana.Library.DistributedCache
             // Convert string to byte[]
             byte[] cacheValue = Encoding.UTF8.GetBytes(cacheValueStr);
             #endregion
-
-
+            
             #region Act
             // Add the key to cache
             this._cache.Set(cacheKey, cacheValue);
@@ -203,8 +187,7 @@ namespace Tests.Ratana.Library.DistributedCache
             var task = this._cache.RemoveAsync(cacheKey);
             task.Wait();
             #endregion
-
-
+            
             #region Assert
             // Make sure the key is no longer in the cache
             returnedCacheValue = this._cache.Get(cacheKey);
@@ -212,8 +195,7 @@ namespace Tests.Ratana.Library.DistributedCache
             #endregion
         }
         #endregion
-
-
+        
         #region Set
         [Test]
         [Continuous, Integration]
@@ -228,13 +210,11 @@ namespace Tests.Ratana.Library.DistributedCache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Act
             // Call Set
             this._cache.Set(cacheKey, cacheValue);
             #endregion
-
 
             #region Assert
             // Make sure we can get back the value we cached
@@ -254,8 +234,7 @@ namespace Tests.Ratana.Library.DistributedCache
             // Convert string to byte[]
             byte[] cacheValue = null;
             #endregion
-
-
+            
             #region Act & Assert
             // Call Set
             // Since cacheValue is null, it should throw an exception
@@ -276,15 +255,13 @@ namespace Tests.Ratana.Library.DistributedCache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Act
             // Call SetAsync
             var task = this._cache.SetAsync(cacheKey, cacheValue);
             task.Wait();
             #endregion
-
-
+            
             #region Assert
             // Make sure we can get back the value we cached
             Assert.AreEqual(cacheValue, this._cache.Get(cacheKey));
@@ -303,8 +280,7 @@ namespace Tests.Ratana.Library.DistributedCache
             // Convert string to byte[]
             byte[] cacheValue = null;
             #endregion
-
-
+            
             #region Act & Assert
             // Call SetAsync
             // Since cacheValue is null, it should throw an exception

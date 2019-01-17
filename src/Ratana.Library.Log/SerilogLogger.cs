@@ -1,6 +1,5 @@
 ﻿using Serilog;
 using Serilog.Events;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -65,7 +64,6 @@ namespace Ratana.Library.Log
             }
         }
 
-
         public class SerilogSettings
         {
             public string ApplicationName { get; set; }
@@ -83,7 +81,6 @@ namespace Ratana.Library.Log
                 this.MinimumLevel = LogEventLevel.Information;
             }
         }
-
 
         public class SerlogLogContext : ILogContext
         {

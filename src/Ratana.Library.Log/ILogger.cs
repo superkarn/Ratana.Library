@@ -1,5 +1,4 @@
-﻿
-namespace Ratana.Library.Log
+﻿namespace Ratana.Library.Log
 {
     /// <summary>
     /// Provides an easy-to-use generic logging interface.

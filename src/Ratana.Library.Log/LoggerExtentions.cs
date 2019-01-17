@@ -58,8 +58,6 @@ namespace Ratana.Library.Log
             logger.Log(context, new LogEntry(LoggingEventType.Fatal, message, exception, args));
         }
 
-
-
         /// <summary>
         /// Log with specified severity.
         /// </summary>

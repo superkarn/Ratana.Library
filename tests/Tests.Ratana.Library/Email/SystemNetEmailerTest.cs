@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Moq;
 using NUnit.Framework;
 using Ratana.Library.Email;
 using System;
@@ -25,8 +24,7 @@ namespace Tests.Ratana.Library.Email
                 .AddJsonFile($"appsettings.json", true, true)
                 .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                 .Build();
-
-
+            
             // Default Redis host:port is localhost:6379
             var host = string.IsNullOrWhiteSpace(config["smtp:host"]) ? "localhost" : config["smtp:host"];
             var username = string.IsNullOrWhiteSpace(config["smtp:username"]) ? "localhost" : config["smtp:username"];
@@ -48,8 +46,7 @@ namespace Tests.Ratana.Library.Email
                 Credentials = new NetworkCredential(username, password)
             };
         }
-
-
+        
         [Test]
         [Integration]
         [TestCase("from@example.com", "to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "")]
@@ -70,13 +67,11 @@ namespace Tests.Ratana.Library.Email
             }
             #endregion
 
-
             #region Assert
             // 1. Make sure there's no exceptions
             // 2. If using a valid toAddress, check that the message arrived
             #endregion
         }
-
 
         [Test]
         [Integration]
@@ -88,11 +83,9 @@ namespace Tests.Ratana.Library.Email
             IEmailer emailer = new SystemNetEmailer(this._smptClient);
             #endregion
 
-
             #region Act
             emailer.Send(fromAddress, toAddress, subject, body);
             #endregion
-
 
             #region Assert
             // 1. Make sure there's no exceptions

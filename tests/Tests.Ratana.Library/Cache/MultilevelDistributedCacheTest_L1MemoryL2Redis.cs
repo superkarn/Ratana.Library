@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Ratana.Library.Cache;
@@ -30,7 +29,6 @@ namespace Tests.Ratana.Library.Cache
                 .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                 .Build();
 
-
             // Default Redis host:port is localhost:6379
             var host = string.IsNullOrWhiteSpace(config["redis:host"]) ? "localhost" : config["redis:host"];
             int port = 6379;
@@ -42,8 +40,6 @@ namespace Tests.Ratana.Library.Cache
 
             var cacheL1 = new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions()));
             var cacheL2 = new Microsoft.Extensions.Caching.Redis.RedisCache(Options.Create(redisCacheOptions));
-
-
 
             this._cache = new MultilevelDistributedCache(new global::Ratana.Library.DistributedCache.MultilevelCache(
                 cacheL1,
@@ -60,8 +56,7 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
-
+            
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
@@ -98,7 +93,6 @@ namespace Tests.Ratana.Library.Cache
             );
             #endregion
 
-
             #region Assert
             // returnedCacheValue1 should equal cacheValue because the cache was empty.
             Assert.AreEqual(cacheValue, returnedCacheValue1);
@@ -122,7 +116,6 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
 
             #region Act
             // 1 Try to save cacheValue under cacheKey.
@@ -161,7 +154,6 @@ namespace Tests.Ratana.Library.Cache
             );
             #endregion
 
-
             #region Assert
             // returnedCacheValue1 should equal cacheValue1 because the cache was empty.
             Assert.AreEqual(cacheValue1, returnedCacheValue1);
@@ -187,7 +179,6 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
 
             #region Act
             // 1 Try to save cacheValue under cacheKey.
@@ -226,7 +217,6 @@ namespace Tests.Ratana.Library.Cache
                 .GetString(cacheKey)
             );
             #endregion
-
 
             #region Assert
             // returnedCacheValue2 should equal cacheValue2 (but not cacheValue1)

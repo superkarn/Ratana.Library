@@ -25,12 +25,10 @@ namespace Tests.Ratana.Library.Cache
                 .AddJsonFile($"appsettings.{environmentName}.json", true, true)
                 .Build();
 
-
             // Default Redis host:port is localhost:6379
             var host = string.IsNullOrWhiteSpace(config["redis:host"]) ? "localhost" : config["redis:host"];
             int port = 6379;
             try { port = int.Parse(config["redis:port"]); } catch { }
-
 
             var redisSettings = new RedisCache.RedisSettings()
             {
@@ -58,7 +56,6 @@ namespace Tests.Ratana.Library.Cache
             this._cache.Remove(cacheKey);
             #endregion
 
-
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
@@ -84,7 +81,6 @@ namespace Tests.Ratana.Library.Cache
             (this._cache as MultilevelCache).Caches[1].TryGet(cacheKey, out string returnedCacheL2Value);
             #endregion
 
-
             #region Assert
             // returnedCacheValue1 should equal cacheValue because the cache was empty.
             Assert.AreEqual(cacheValue, returnedCacheValue1);
@@ -108,7 +104,6 @@ namespace Tests.Ratana.Library.Cache
             // Make sure the key we're about to test is empty
             this._cache.Remove(cacheKey);
             #endregion
-
 
             #region Act
             // 1 Try to save cacheValue under cacheKey.
@@ -139,7 +134,6 @@ namespace Tests.Ratana.Library.Cache
             var tryGetResultL2 = (this._cache as MultilevelCache).Caches[1].TryGet(cacheKey, out string returnedCacheL2Value);
             #endregion
 
-
             #region Assert
             // returnedCacheValue1 should equal cacheValue1 because the cache was empty.
             Assert.AreEqual(cacheValue1, returnedCacheValue1);
@@ -167,7 +161,6 @@ namespace Tests.Ratana.Library.Cache
             this._cache.Remove(cacheKey);
             #endregion
 
-
             #region Act
             // 1 Try to save cacheValue under cacheKey.
             //   Since this key is new, the cacheValue should be saved to the cache
@@ -194,8 +187,7 @@ namespace Tests.Ratana.Library.Cache
             (this._cache as MultilevelCache).Caches[0].TryGet(cacheKey, out string returnedCacheL1Value);
             (this._cache as MultilevelCache).Caches[1].TryGet(cacheKey, out string returnedCacheL2Value);
             #endregion
-
-
+            
             #region Assert
             // returnedCacheValue2 should equal cacheValue2 (but not cacheValue1)
             // because the cache was empty the second time.

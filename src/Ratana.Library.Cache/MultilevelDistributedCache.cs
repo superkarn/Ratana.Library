@@ -122,7 +122,6 @@ namespace Ratana.Library.Cache
                 ii++;
             }
 
-
             return value;
         }
 

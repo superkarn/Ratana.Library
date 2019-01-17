@@ -61,8 +61,6 @@ namespace Ratana.Library.Cache
             this._memoryCache.Remove(key);
         }
 
-
-
         /// <summary>
         /// Look for the item in the cache.
         /// If the item is found, set the value and return true,
