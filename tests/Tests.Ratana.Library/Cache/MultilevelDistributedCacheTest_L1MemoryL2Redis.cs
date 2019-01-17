@@ -1,5 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Redis;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Moq;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using Ratana.Library.Cache;
 using System;
@@ -9,7 +14,7 @@ using Tests.Ratana.Library.Attributes;
 namespace Tests.Ratana.Library.Cache
 {
     [TestFixture]
-    public class MultilevelCacheTest_L1MemoryL2Redis
+    public class MultilevelDistributedCacheTest_L1MemoryL2Redis
     {
         private IMultilevelCache _cache;
 
@@ -31,21 +36,19 @@ namespace Tests.Ratana.Library.Cache
             int port = 6379;
             try { port = int.Parse(config["redis:port"]); } catch { }
 
+            RedisCacheOptions redisCacheOptions = new RedisCacheOptions();
+            redisCacheOptions.ConfigurationOptions = new StackExchange.Redis.ConfigurationOptions();
+            redisCacheOptions.ConfigurationOptions.EndPoints.Add(host, port);
 
-            var redisSettings = new RedisCache.RedisSettings()
-            {
-                Server = host,
-                Port = port
-            };
+            var cacheL1 = new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions()));
+            var cacheL2 = new Microsoft.Extensions.Caching.Redis.RedisCache(Options.Create(redisCacheOptions));
 
-            // Set up some variables
-            ICache cacheL1 = new InMemoryCache();
-            ICache cacheL2 = new RedisCache(redisSettings);
 
-            this._cache = new MultilevelCache(
+
+            this._cache = new MultilevelDistributedCache(new global::Ratana.Library.DistributedCache.MultilevelCache(
                 cacheL1,
                 cacheL2
-            );
+            ));
         }
 
         [Test]
@@ -67,21 +70,32 @@ namespace Tests.Ratana.Library.Cache
                 {
                     return cacheValue;
                 },
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(1));
-            
+                TimeSpan.FromMinutes(1),
+                TimeSpan.FromMinutes(1));
+
             // 2 Try to save fakeValue under cacheKey.
             // Since the key already exist, fakeValue is never reached.
             var returnedCacheValue2 = this._cache.GetOrAdd(cacheKey, () =>
                 {
                     return fakeValue;
                 },
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(1));
+                TimeSpan.FromMinutes(1),
+                TimeSpan.FromMinutes(1));
 
             // 2.1 Get the values from cacheL1 and cacheL2
-            (this._cache as MultilevelCache).Caches[0].TryGet(cacheKey, out string returnedCacheL1Value);
-            (this._cache as MultilevelCache).Caches[1].TryGet(cacheKey, out string returnedCacheL2Value);
+            var returnedCacheL1Value = JsonConvert.DeserializeObject<string>(
+                (this._cache as MultilevelDistributedCache)
+                .Cache
+                .Caches[0]
+                .GetString(cacheKey)
+            );
+
+            var returnedCacheL2Value = JsonConvert.DeserializeObject<string>(
+                (this._cache as MultilevelDistributedCache)
+                .Cache
+                .Caches[1]
+                .GetString(cacheKey)
+            );
             #endregion
 
 
@@ -125,7 +139,10 @@ namespace Tests.Ratana.Library.Cache
             Thread.Sleep(TimeSpan.FromMilliseconds(10));
 
             // 2.1 Get the values from cacheL1 after it has expired
-            var tryGetResultL1 = (this._cache as MultilevelCache).Caches[0].TryGet(cacheKey, out string returnedCacheL1Value);
+            var returnedCacheL1Value = (this._cache as MultilevelDistributedCache)
+                .Cache
+                .Caches[0]
+                .GetString(cacheKey);
 
             // 3 Try to save cacheValue2 under cacheKey
             var returnedCacheValue2 = this._cache.GetOrAdd(cacheKey, () =>
@@ -136,7 +153,12 @@ namespace Tests.Ratana.Library.Cache
                 TimeSpan.FromMinutes(1));
 
             // 3.1 Get the values from cacheL2
-            var tryGetResultL2 = (this._cache as MultilevelCache).Caches[1].TryGet(cacheKey, out string returnedCacheL2Value);
+            var returnedCacheL2Value = JsonConvert.DeserializeObject<string>(
+                (this._cache as MultilevelDistributedCache)
+                .Cache
+                .Caches[1]
+                .GetString(cacheKey)
+            );
             #endregion
 
 
@@ -149,8 +171,7 @@ namespace Tests.Ratana.Library.Cache
             Assert.AreEqual(cacheValue1, returnedCacheValue2);
 
             // returnedCacheL1Value should be null because its first value had expired
-            Assert.IsFalse(tryGetResultL1);
-            Assert.AreEqual(default(string), returnedCacheL1Value);
+            Assert.IsNull(returnedCacheL1Value);
 
             // returnedCacheL2Value should match cacheValue1 because its first value hadn't expired
             Assert.AreEqual(cacheValue1, returnedCacheL2Value);
@@ -176,8 +197,8 @@ namespace Tests.Ratana.Library.Cache
                 {
                     return cacheValue1;
                 },
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(1));
+                TimeSpan.FromMinutes(1),
+                TimeSpan.FromMinutes(1));
 
             // 2 Remove the cacheKey
             this._cache.Remove(cacheKey);
@@ -187,12 +208,23 @@ namespace Tests.Ratana.Library.Cache
                 {
                     return cacheValue2;
                 },
-                TimeSpan.FromSeconds(1),
-                TimeSpan.FromSeconds(1));
+                TimeSpan.FromMinutes(1),
+                TimeSpan.FromMinutes(1));
 
             // 3.1 Get the values from cacheL1 and cacheL2
-            (this._cache as MultilevelCache).Caches[0].TryGet(cacheKey, out string returnedCacheL1Value);
-            (this._cache as MultilevelCache).Caches[1].TryGet(cacheKey, out string returnedCacheL2Value);
+            var returnedCacheL1Value = JsonConvert.DeserializeObject<string>(
+                (this._cache as MultilevelDistributedCache)
+                .Cache
+                .Caches[0]
+                .GetString(cacheKey)
+            );
+
+            var returnedCacheL2Value = JsonConvert.DeserializeObject<string>(
+                (this._cache as MultilevelDistributedCache)
+                .Cache
+                .Caches[1]
+                .GetString(cacheKey)
+            );
             #endregion
 
 
