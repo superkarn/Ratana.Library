@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>0.6.0.0</AssemblyVersion>
-    <FileVersion>0.6.0.0</FileVersion>
+    <AssemblyVersion>0.7.0.0</AssemblyVersion>
+    <FileVersion>0.7.0.0</FileVersion>
     <PackageLicenseUrl>https://github.com/superkarn/Ratana.Library/blob/master/LICENSE</PackageLicenseUrl>
     <Copyright>2016</Copyright>
     <PackageProjectUrl></PackageProjectUrl>
@@ -12,7 +12,7 @@
     <RepositoryUrl>https://github.com/superkarn/Ratana.Library</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <PackageReleaseNotes>Initial Version, for testing only.</PackageReleaseNotes>
-    <Version>0.6.0</Version>
+    <Version>0.7.0</Version>
     <Authors>Karn Ratana</Authors>
     <Company>Karn Ratana</Company>
   </PropertyGroup>
