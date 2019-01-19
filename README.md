@@ -1,6 +1,7 @@
 # Ratana.Library
 
-[![Build status](https://ci.appveyor.com/api/projects/status/osjl0yc29i7i5tv7/branch/master?svg=true)](https://ci.appveyor.com/project/superkarn/ratanalibrary/branch/master)  
+[![Build status](https://ci.appveyor.com/api/projects/status/osjl0yc29i7i5tv7/branch/master?svg=true)](https://ci.appveyor.com/project/superkarn/ratanalibrary/branch/master)
+[![CodeFactor](https://www.codefactor.io/repository/github/superkarn/ratana.library/badge)](https://www.codefactor.io/repository/github/superkarn/ratana.library)
 
 |Library Name                    | NuGet Version |
 |--------------------------------|---------------|
