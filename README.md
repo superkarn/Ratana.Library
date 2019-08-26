@@ -51,6 +51,11 @@ var cachedValue2 = cache2.GetOrAdd("MyKey", () =>
 This library implements [Microsoft.Extensions.Caching.Distributed.IDistributedCache](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.caching.distributed.idistributedcache) while providing arbitrary multilevel caching mechanism.  Each level is also an IDistributedCache, with the lowest level (L1) being accessed first (e.g. should be the quickest).  Note that this is library does not depend on `Ratana.Library.Cache`.
 
 ```C#
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Redis;
+
+...
+
 IDistributedCache cache = new MultilevelCache(
     new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions())), // L1 cache
     new RedisCache(Options.Create(new RedisCacheOptions()))                          // L2 Cache
