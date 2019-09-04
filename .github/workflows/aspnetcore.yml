@@ -1,0 +1,30 @@
+name: ASP.NET Core CI
+
+on:
+  push:
+    branches:
+    - master
+    - release/*
+    - dev/*
+  pull_request:
+    branches:
+    - master
+    
+  # run every day of the week from Monday - Friday at 02:00
+  #schedule:
+  #- cron: 0 2 * * 1-5
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.108
+    - name: Build with dotnet
+      run: |
+        dotnet build --configuration Release
