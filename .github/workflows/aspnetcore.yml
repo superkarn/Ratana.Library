@@ -34,24 +34,24 @@ jobs:
         
     - name: Build Ratana.Library.Email
       run: |
-        cd ../Ratana.Library.Email
+        cd src/Ratana.Library.Email
         dotnet restore
         dotnet build --configuration Release
         
     - name: Build Ratana.Library.Log
       run: |
-        cd ../Ratana.Library.Log
+        cd src/Ratana.Library.Log
         dotnet restore
         dotnet build --configuration Release
         
     - name: Build Ratana.Library.Profiler
       run: |
-        cd ../Ratana.Library.Profiler
+        cd src/Ratana.Library.Profiler
         dotnet restore
         dotnet build --configuration Release
         
     - name: Run unit tests
       run: |
-        cd ../../tests/Tests.Ratana.Library
+        cd tests/Tests.Ratana.Library
         dotnet test --filter Category=Continuous
         
