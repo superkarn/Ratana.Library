@@ -60,6 +60,7 @@ jobs:
       env: 
         ASPNETCORE_ENVIRONMENT: github-ci
       run: |
+        echo "${env:ASPNETCORE_ENVIRONMENT}"
         cd tests/Tests.Ratana.Library
         dotnet test --filter Category=Continuous
         
