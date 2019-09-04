@@ -28,8 +28,6 @@ jobs:
     - uses: actions/checkout@v1
     
     - name: Setup .NET Core
-      env: 
-        ASPNETCORE_ENVIRONMENT: github-ci
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108
@@ -59,6 +57,8 @@ jobs:
         dotnet build --configuration Release
         
     - name: Run unit tests
+      env: 
+        ASPNETCORE_ENVIRONMENT: github-ci
       run: |
         cd tests/Tests.Ratana.Library
         dotnet test --filter Category=Continuous
