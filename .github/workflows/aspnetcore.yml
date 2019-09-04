@@ -16,18 +16,42 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v1
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108
-    - name: Build with dotnet
+        
+    - name: Build Ratana.Library.Cache
       run: |
+        cd src/Ratana.Library.Cache
+        dotnet restore
         dotnet build --configuration Release
+        
+    - name: Build Ratana.Library.Email
+      run: |
+        cd ../Ratana.Library.Email
+        dotnet restore
+        dotnet build --configuration Release
+        
+    - name: Build Ratana.Library.Log
+      run: |
+        cd ../Ratana.Library.Log
+        dotnet restore
+        dotnet build --configuration Release
+        
+    - name: Build Ratana.Library.Profiler
+      run: |
+        cd ../Ratana.Library.Profiler
+        dotnet restore
+        dotnet build --configuration Release
+        
     - name: Run unit tests
       run: |
+        cd ../../tests/Tests.Ratana.Library
         dotnet test --filter Category=Continuous
+        
