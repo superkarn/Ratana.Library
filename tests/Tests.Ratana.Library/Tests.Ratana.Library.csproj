@@ -30,6 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.github-ci.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.gitlab-ci.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -30,6 +30,10 @@ namespace Tests.Ratana.Library.Cache
             int port = 6379;
             try { port = int.Parse(config["redis:port"]); } catch { }
 
+            Console.WriteLine($"    environmentName: {environmentName}");
+            Console.WriteLine($"    config host:     {config["redis:host"]}");
+            Console.WriteLine($"    Redis host:      {host}");
+            Console.WriteLine($"    Redis port:      {port}");
             var redisSettings = new RedisCache.RedisSettings()
             {
                 Server = host,
