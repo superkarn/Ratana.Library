@@ -61,6 +61,7 @@ jobs:
         ASPNETCORE_ENVIRONMENT: github-ci
       run: |
         echo "${env:ASPNETCORE_ENVIRONMENT}"
+        ping redis
         cd tests/Tests.Ratana.Library
         dotnet test --filter Category=Continuous
         
