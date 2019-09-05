@@ -32,29 +32,29 @@ jobs:
       with:
         dotnet-version: 2.2.108
         
-    - name: Build Ratana.Library.Cache
-      run: |
-        cd src/Ratana.Library.Cache
-        dotnet restore
-        dotnet build --configuration Release
-        
-    - name: Build Ratana.Library.Email
-      run: |
-        cd src/Ratana.Library.Email
-        dotnet restore
-        dotnet build --configuration Release
-        
-    - name: Build Ratana.Library.Log
-      run: |
-        cd src/Ratana.Library.Log
-        dotnet restore
-        dotnet build --configuration Release
-        
-    - name: Build Ratana.Library.Profiler
-      run: |
-        cd src/Ratana.Library.Profiler
-        dotnet restore
-        dotnet build --configuration Release
+    #- name: Build Ratana.Library.Cache
+    #  run: |
+    #    cd src/Ratana.Library.Cache
+    #    dotnet restore
+    #    dotnet build --configuration Release
+    #    
+    #- name: Build Ratana.Library.Email
+    #  run: |
+    #    cd src/Ratana.Library.Email
+    #    dotnet restore
+    #    dotnet build --configuration Release
+    #    
+    #- name: Build Ratana.Library.Log
+    #  run: |
+    #    cd src/Ratana.Library.Log
+    #    dotnet restore
+    #    dotnet build --configuration Release
+    #    
+    #- name: Build Ratana.Library.Profiler
+    #  run: |
+    #    cd src/Ratana.Library.Profiler
+    #    dotnet restore
+    #    dotnet build --configuration Release
         
     - name: Run unit tests
       env: 
