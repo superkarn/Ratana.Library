@@ -190,7 +190,7 @@ namespace Tests.Ratana.Library.DistributedCache
         
         #region Refresh
         [Test]
-        [Continuous, Integration, RequireThirdPartyService]
+        [Continuous, Integration]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:Refresh:test-key1")]
         public void Refresh(string cacheKey)
         {
@@ -214,7 +214,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration, RequireThirdPartyService]
+        [Continuous, Integration]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:RefreshAsync:test-key1")]
         public void RefreshAsync(string cacheKey)
         {
@@ -272,7 +272,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:RemoveAsync:test-key1")]
         public void RemoveAsync(string cacheKey)
         {
