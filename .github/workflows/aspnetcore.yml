@@ -32,34 +32,40 @@ jobs:
       with:
         dotnet-version: 2.2.108
         
-    #- name: Build Ratana.Library.Cache
-    #  run: |
-    #    cd src/Ratana.Library.Cache
-    #    dotnet restore
-    #    dotnet build --configuration Release
-    #    
-    #- name: Build Ratana.Library.Email
-    #  run: |
-    #    cd src/Ratana.Library.Email
-    #    dotnet restore
-    #    dotnet build --configuration Release
-    #    
-    #- name: Build Ratana.Library.Log
-    #  run: |
-    #    cd src/Ratana.Library.Log
-    #    dotnet restore
-    #    dotnet build --configuration Release
-    #    
-    #- name: Build Ratana.Library.Profiler
-    #  run: |
-    #    cd src/Ratana.Library.Profiler
-    #    dotnet restore
-    #    dotnet build --configuration Release
+    # Build these projects separately so we can see the metrics independently
+    - name: Build Ratana.Library.Cache
+      run: |
+        cd src/Ratana.Library.Cache
+        dotnet restore
+        dotnet build --configuration Release
+        
+    - name: Build Ratana.Library.Email
+      run: |
+        cd src/Ratana.Library.Email
+        dotnet restore
+        dotnet build --configuration Release
+        
+    - name: Build Ratana.Library.Log
+      run: |
+        cd src/Ratana.Library.Log
+        dotnet restore
+        dotnet build --configuration Release
+        
+    - name: Build Ratana.Library.Profiler
+      run: |
+        cd src/Ratana.Library.Profiler
+        dotnet restore
+        dotnet build --configuration Release
         
     - name: Run unit tests
       env: 
         ASPNETCORE_ENVIRONMENT: github-ci
       run: |
         cd tests/Tests.Ratana.Library
-        dotnet test --filter Category=Continuous
+        
+        # For now run tests based on Category!=RequireThirdPartyService.
+        # Once we figure out how to connect to Redis, then change this
+        # to Category=Continuous
+        #dotnet test --filter Category=Continuous        
+        dotnet test --filter Category!=RequireThirdPartyService
         

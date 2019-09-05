@@ -48,7 +48,7 @@ namespace Tests.Ratana.Library.Email
         }
         
         [Test]
-        [Integration]
+        [Integration, RequireThirdPartyService]
         [TestCase("from@example.com", "to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "")]
         [TestCase("from@example.com", "to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters")]
         public void SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters(string fromAddress, string toAddress, string subject, string body)
@@ -74,7 +74,7 @@ namespace Tests.Ratana.Library.Email
         }
 
         [Test]
-        [Integration]
+        [Integration, RequireThirdPartyService]
         [TestCase("from@example.com", "to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "")]
         [TestCase("from@example.com", "to@example.com", "Ratana.Library.Common SystemNetEmailerTest", "SendEmail_ShouldSendSuccessfully_WhenPassedAppropriateParameters")]
         public void SendEmail_ShouldSendSuccessfully_WhenCallingViaExtentionMethod(string fromAddress, string toAddress, string subject, string body)

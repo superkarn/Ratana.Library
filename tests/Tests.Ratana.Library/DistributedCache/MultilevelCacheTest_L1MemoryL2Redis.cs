@@ -47,7 +47,7 @@ namespace Tests.Ratana.Library.DistributedCache
 
         #region Get
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel1:test-key1", "test-value-1", "test-value-2")]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel1:test-key2", "", "test-value-2")]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel1:test-key3", "", "")]
@@ -76,7 +76,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel2:test-key1", null, "test-value-2")]
         public void GetLevel2_When_Level1_Is_Empty(string cacheKey, string cacheValue1Str, string cacheValue2Str)
         {
@@ -101,7 +101,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetLevel2:test-key2")]
         public void GetLevel2_In_Redis_EmptyString_Becomes_Null(string cacheKey)
         {
@@ -128,7 +128,7 @@ namespace Tests.Ratana.Library.DistributedCache
 
         #region GetAsync
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetAsyncLevel1:test-key1", "test-value-1", "test-value-2")]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetAsyncLevel1:test-key2", "", "test-value-2")]
         public void GetAsyncLevel1(string cacheKey, string cacheValue1Str, string cacheValue2Str)
@@ -158,7 +158,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetAsyncLevel2:test-key1", "test-value-1", "test-value-2")]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:GetAsyncLevel2:test-key2", "", "test-value-2")]
         public void GetAsyncLevel2(string cacheKey, string cacheValue1Str, string cacheValue2Str)
@@ -190,7 +190,7 @@ namespace Tests.Ratana.Library.DistributedCache
         
         #region Refresh
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:Refresh:test-key1")]
         public void Refresh(string cacheKey)
         {
@@ -214,7 +214,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:RefreshAsync:test-key1")]
         public void RefreshAsync(string cacheKey)
         {
@@ -241,7 +241,7 @@ namespace Tests.Ratana.Library.DistributedCache
 
         #region Remove
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:Remove:test-key1")]
         public void Remove(string cacheKey)
         {
@@ -306,7 +306,7 @@ namespace Tests.Ratana.Library.DistributedCache
         
         #region Set
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:Set:test-key1", "test-value-1")]
         public void Set(string cacheKey, string cacheValueStr)
         {
@@ -334,7 +334,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:Set:test-key1", "")]
         public void Set_EmptyString_Does_Not_Work_As_Expected_In_Redis(string cacheKey, string cacheValueStr)
         {
@@ -378,7 +378,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:SetAsync:test-key1", "test-value-1")]
         public void SetAsync(string cacheKey, string cacheValueStr)
         {
@@ -407,7 +407,7 @@ namespace Tests.Ratana.Library.DistributedCache
         }
 
         [Test]
-        [Continuous, Integration]
+        [Continuous, Integration, RequireThirdPartyService]
         [TestCase("MultilevelCacheTest_L1MemoryL2Redis:SetAsync_Null_Should_Throw_Exception:test-key1")]
         public void SetAsync_Null_Should_Throw_Exception(string cacheKey)
         {
